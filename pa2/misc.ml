@@ -34,7 +34,7 @@ let rec assoc (d,k,l) =
   in 
   helper k d l;; 
 
-(* Func description here *)
+(* Removes duplicates from a list using tail recursion and List.mem *)
 let removeDuplicates l = 
   let rec helper (seen,rest) = 
       match rest with 
@@ -47,11 +47,24 @@ let removeDuplicates l =
   List.rev (helper ([],l));;
 
 
-(* Small hint: see how ffor is implemented below *)
-let rec wwhile (f,b) = failwith "to be written"
+(* Applies the function f to parameter b, obtaining a pair (b',c').
+   Continues to apply f to subsequent b' values until c' is no longer true.
+*)
+let rec wwhile (f,b) = 
+  let (b',c') = f b in 
+  if c' = true then wwhile (f,b')
+  else b';;
 
-(* fill in the code wherever it says : failwith "to be written" *)
-let fixpoint (f,b) = wwhile ((failwith "to be written"),b)
+
+(* fill in the code wherever it says : failwith "to be written" 
+  wwhile ((failwith "to be written"),b)
+*)
+let fixpoint (f,b) =  
+  let rec helper f b =
+    if f b = b then b
+    else helper f (f b)
+  in
+  helper f b;;
 
 
 (* ffor: int * int * (int -> unit) -> unit

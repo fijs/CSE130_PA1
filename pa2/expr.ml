@@ -1,4 +1,4 @@
-(*
+(* Fernando I Jaime
  * expr.ml
  * cse130
  * based on code by Chris Stone
@@ -21,7 +21,10 @@ type expr =
   | Times    of expr * expr
   | Thresh   of expr * expr * expr * expr	
 
-let rec exprToString e = failwith "to be written"
+let rec exprToString e = 
+  match e with
+  | "" -> "empty expression"
+  | 
 
 (* build functions:
      Use these helper functions to generate elements of the expr
