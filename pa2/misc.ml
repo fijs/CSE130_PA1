@@ -34,17 +34,17 @@ let rec assoc (d,k,l) =
   in 
   helper k d l;; 
 
-(* fill in the code wherever it says : failwith "to be written" *)
+(* Func description here *)
 let removeDuplicates l = 
   let rec helper (seen,rest) = 
       match rest with 
-        [] -> seen
+      | [] -> seen
       | h::t -> 
-        let seen' = failwith "to be written" in
-        let rest' = failwith "to be written" in 
+        let seen' = if List.mem h seen then seen else h::seen in
+        let rest' = t in 
 	  helper (seen',rest') 
   in
-      List.rev (helper ([],l))
+  List.rev (helper ([],l));;
 
 
 (* Small hint: see how ffor is implemented below *)
