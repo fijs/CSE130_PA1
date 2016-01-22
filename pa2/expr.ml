@@ -81,7 +81,7 @@ let sampleExpr =
       (buildTimes (buildY(),buildY()),buildCosine (buildX())))),
       buildCosine (buildTimes (buildSine (buildCosine
       (buildY())),buildAverage (buildSine (buildX()), buildTimes
-      (buildX(),buildX()))))))),buildY())))
+      (buildX(),buildX()))))))),buildY())));;
 
 let sampleExpr2 =
   buildThresh(buildX(),buildY(),buildSine(buildX()),buildCosine(buildY()))

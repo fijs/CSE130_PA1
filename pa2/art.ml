@@ -1,4 +1,4 @@
-(*
+(* Fernando I Jaime
  * art.ml
  * cs334
  * based on code by Chris Stone
@@ -19,7 +19,16 @@
    the expression.
 *)
 
-let rec build (rand,depth) = failwith "to be implemented"
+let rec build (rand,depth) = 
+  let option = rand (0,7) in
+    match option with
+    | 0 -> buildX()
+    | 1 -> buildY()
+    | 2 -> buildSine(build rand (depth-1))
+    | 3 -> buildCosine(build rand (depth-1))
+    | 4 -> buildAverage(build rand (depth-1),build rand (depth-1))
+    | 5 -> buildTimes(build rand (depth-1),build rand (depth-1))
+    | 6 -> buildThresh(build rand (depth-1),build rand (depth-1),build rand (depth-1),build rand (depth-1))
 
 let rec build2 (rand,depth) = failwith "to be implemented"
 
@@ -33,7 +42,7 @@ let rec build2 (rand,depth) = failwith "to be implemented"
  * they should return (depth,seed1,seed2)
  *)
 
-let g1 () = failwith "to be implemented"  
+let g1 () = failwith "to be implemented"
 let g2 () = failwith "to be implemented"  
 let g3 () = failwith "to be implemented"  
 
