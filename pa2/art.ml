@@ -19,16 +19,20 @@
    the expression.
 *)
 
-let rec build (rand,depth) = 
-  let option = rand (0,7) in
+let rec build (rand,depth) =
+  if depth = 0 then let option = rand (0,2) in
+    match option with
+    | 0 -> buildX()
+    | _ -> buildY()
+  else let option = rand (0,7) in
     match option with
     | 0 -> buildX()
     | 1 -> buildY()
-    | 2 -> buildSine(build rand (depth-1))
-    | 3 -> buildCosine(build rand (depth-1))
-    | 4 -> buildAverage(build rand (depth-1),build rand (depth-1))
-    | 5 -> buildTimes(build rand (depth-1),build rand (depth-1))
-    | 6 -> buildThresh(build rand (depth-1),build rand (depth-1),build rand (depth-1),build rand (depth-1))
+    | 2 -> buildSine( build (rand,(depth-1) ) )
+    | 3 -> buildCosine(build (rand,(depth-1) ))
+    | 4 -> buildAverage(build (rand,(depth-1) ),build (rand,(depth-1) ))
+    | 5 -> buildTimes(build (rand,(depth-1) ),build (rand,(depth-1) ))
+    | _ -> buildThresh(build (rand,(depth-1) ),build (rand,(depth-1) ),build (rand,(depth-1) ),build (rand,(depth-1) ))
 
 let rec build2 (rand,depth) = failwith "to be implemented"
 
