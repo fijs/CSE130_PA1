@@ -19,12 +19,24 @@ type expr =
   | Cosine   of expr
   | Average  of expr * expr
   | Times    of expr * expr
-  | Thresh   of expr * expr * expr * expr	
+  | Thresh   of expr * expr * expr * expr;;
+
+(*
+  # exprToString (Thresh(VarX,VarY,VarX,(Times(Sine(VarX),Cosine(Average(VarX,VarY))))));;
+  - :       string = "(x<y?x:sin(pi*x)*cos(pi*((x+y)/2)))"
+  print:    string = "(x<y?x:sin(pi*x)*cos(pi*((x+y)/2)))"
+(e<e ? e : e)
+*)
 
 let rec exprToString e = 
   match e with
-  | "" -> "empty expression"
-  | 
+  | VarX                  -> "x"
+  | VarY                  -> "y"
+  | Sine e                -> "sin(pi*"^exprToString e^")"
+  | Cosine e              -> "cos(pi*"^exprToString e^")"
+  | Average (e1,e2)       -> "(("^exprToString e1^"+"^exprToString e2^")/2)"
+  | Times (e1,e2)         -> exprToString e1^"*"^exprToString e2
+  | Thresh (e1,e2,e3,e4)  -> "("^exprToString e1^"<"^exprToString e2^"?"^exprToString e3^":"^exprToString e4^")";;
 
 (* build functions:
      Use these helper functions to generate elements of the expr
@@ -42,7 +54,17 @@ let buildThresh(a,b,a_less,b_less) = Thresh(a,b,a_less,b_less)
 
 let pi = 4.0 *. atan 1.0
 
-let rec eval (e,x,y) = failwith "to be written"
+(* x | y | sin (pi*e) | cos (pi*e) | ((e + e)/2) | e * e | (e<e ? e : e) *)
+
+let rec eval (e,x,y) =
+  match e with
+    | VarX                  -> x
+    | VarY                  -> y
+    | Sine e'                -> sin(pi *. (eval (e',x,y)))
+    | Cosine e'              -> cos(pi *. (eval (e',x,y)))
+    | Average (e1,e2)       -> ((eval (e1,x,y) +. eval (e2,x,y))/.2.0)
+    | Times (e1,e2)         -> eval (e1,x,y) *. eval (e2,x,y)
+    | Thresh (e1,e2,e3,e4)  -> if eval (e1,x,y) < eval (e2,x,y) then eval (e3,x,y) else eval (e4,x,y);;
 
 (* (eval_fn e (x,y)) evaluates the expression e at the point (x,y) and then
  * verifies that the result is between -1 and 1.  If it is, the result is returned.  
