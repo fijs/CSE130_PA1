@@ -1,6 +1,6 @@
-(* Fernando I Jaime
+(* Fernando I Jaime, A11643783
  * expr.ml
- * cse130
+ * cse130 Winter 2016
  * based on code by Chris Stone
  *)
 
@@ -9,8 +9,11 @@
  * asked to. You will loose points if you do.
  *)
 
-
-(* REMEMBER TO DOCUMENT ALL FUNCTIONS THAT YOU WRITE OR COMPLETE *)
+(* 
+   Grammar/datatype to be used when generating/evaluating expressions. 
+   Added the Abs type for the Absolute value of (X) function as well 
+   as the Sin(X*Y*Z) function.
+ *)
 
 type expr = 
     VarX
@@ -20,16 +23,14 @@ type expr =
   | Average       of expr * expr
   | Times         of expr * expr
   | Thresh        of expr * expr * expr * expr
-  | Abs           of expr
-  | Sin_XYZ       of expr * expr * expr
+  | Abs           of expr (* Absolute value of (x) *)
+  | Sin_XYZ       of expr * expr * expr (* Sin of (X*Y*Z) *)
 
 (*
-  # exprToString (Thresh(VarX,VarY,VarX,(Times(Sine(VarX),Cosine(Average(VarX,VarY))))));;
-  # exprToString (Sin_XYZ(VarX,VarY,VarX);;
-  - :       string = "(x<y?x:sin(pi*x)*cos(pi*((x+y)/2)))"
-  print:    string = "(x<y?x:sin(pi*x)*cos(pi*((x+y)/2)))"
-(e<e ? e : e)
-*)
+    Function exprToString : expr -> string
+    To enable the printing of expressions to the console.
+    Uses pattern matching and string concatenation.
+ *)
 
 let rec exprToString e = 
   match e with
@@ -61,7 +62,13 @@ let buildSin_XYZ(eX,eY,eZ)              = Sin_XYZ(eX,eY,eZ)
 
 let pi = 4.0 *. atan 1.0
 
-(* x | y | sin (pi*e) | cos (pi*e) | ((e + e)/2) | e * e | (e<e ? e : e) *)
+(* 
+  Function eval : expr * float * float -> float
+  Evaluates expressions according to the grammar:
+  e ::= x | y | sin (pi*e) | cos (pi*e) | ((e + e)/2) | e * e | (e<e ? e : e) | Abs (e) | sin (pi * e * e * e)
+  Recursive function that receives a 3-tuple corresponding to an expression and the x,y coordinates of a point.
+  Then uses pattern matching to evaluate the expression according to it's datatype.
+ *)
 
 let rec eval (e,x,y) =
   match e with

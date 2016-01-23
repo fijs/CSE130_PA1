@@ -1,22 +1,19 @@
-(* CSE 130: Programming Assignment 2
-   Fernando I Jaime, A11643783
+(* CSE 130: Programming Assignment 2 Winter 2016
+ * Fernando I Jaime, A11643783
  * misc.ml
  *)
 
-(* UBER-HELPER FUNCTION
-let rec fold f elements_so_far elements_remaining k = 
-  match elements_remaining with
-  | [] -> elements_so_far
-  | head::tail -> fold f (f elements_so_far head k) tail k;;
-*)
 
-(* HELPER FOR ASSOC 
-let assocHelper d k (r1,r2) = 
-  if r1 = k then r2
-  else d;;
-*)
-
-(* ***** DOCUMENT ALL FUNCTIONS YOU WRITE OR COMPLETE ***** *)
+(* 
+    Function assoc : int * string * (string * int) list -> int
+    The function receives a 3-tuple in the form of a default int
+    value, a string k, and a list of (string,int) tuples. 
+    The function will recursively traverse the list with the aid
+    of a helper function, comparing the string values of the 
+    tuples in the string to the string k. If a match is found
+    the int value of that tuple is returned, otherwise, the default
+    int value d is returned.
+ *)
 
 let rec assoc (d,k,l) = 
   let rec helper k default_value elements_remaining = 
@@ -34,7 +31,20 @@ let rec assoc (d,k,l) =
   in 
   helper k d l;; 
 
-(* Removes duplicates from a list using tail recursion and List.mem *)
+(*
+    Function removeDuplicates : int list -> int list 
+    Removes duplicates from a list using tail recursion and List.mem 
+
+    Note: Simply use a helper function to achieve tail-recursion.
+    Then use List.mem to see if the current element of the remaining
+    elements already exists in our "seen" list. If it exists, do not
+    modify the seen list. If it doesn't exist, add it to the head of 
+    the seen list. Because we add to the head (or append the list to
+    our current element), the initial recursive call happens within 
+    a call to List.rev, so that we get the new list in the order of
+    the original list.
+
+ *)
 let removeDuplicates l = 
   let rec helper (seen,rest) = 
       match rest with 
@@ -47,17 +57,24 @@ let removeDuplicates l =
   List.rev (helper ([],l));;
 
 
-(* Applies the function f to parameter b, obtaining a pair (b',c').
-   Continues to apply f to subsequent b' values until c' is no longer true.
+(* 
+   Function wwhile : (int -> int * bool) * int -> int
+   This recursive function takes a tuple consisting of a function (f) that takes an 
+   int (b) and returns an int (b'), until a condition c is no longer true. 
 *)
 let rec wwhile (f,b) = 
+  (* Save the result of the call f (b) in each recursive call as a tuple with the
+     modified value of b (b') and the new value of c (c'). *)
   let (b',c') = f b in 
   if c' = true then wwhile (f,b')
   else b';;
 
 
-(* fill in the code wherever it says : failwith "to be written" 
-  wwhile ((failwith "to be written"),b)
+(* 
+    Function fixpoint : (int -> int) * int -> int
+    This function takes in a tuple consisting of a function (f) that returns an int,
+    and an int value (b). It recursively applies f to b using a helper function, 
+    until f (b) = b.
 *)
 let fixpoint (f,b) =  
   let rec helper f b =

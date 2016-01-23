@@ -1,6 +1,6 @@
-(* Fernando I Jaime
+(* Fernando I Jaime, A11643783
  * art.ml
- * cs334
+ * cs130 Winter 2016
  * based on code by Chris Stone
  *)
 
@@ -17,6 +17,12 @@
 
    Your code should call buildX, buildSine, etc. to construct
    the expression.
+
+   Note: I used the builder functions given in expr.ml to
+   construct my expression tree and then recursively passed
+   the generated random function and depth-1. In the case that
+   we reach depth = 0, I restrict the random number to 0 or 1
+   such that buildX or buildY is called to end the tree.
 *)
 
 let rec build (rand,depth) =
@@ -33,6 +39,10 @@ let rec build (rand,depth) =
     | 4 -> buildAverage(build (rand,(depth-1) ),build (rand,(depth-1) ))
     | 5 -> buildTimes(build (rand,(depth-1) ),build (rand,(depth-1) ))
     | _ -> buildThresh(build (rand,(depth-1) ),build (rand,(depth-1) ),build (rand,(depth-1) ),build (rand,(depth-1) ))
+
+(* Function build2: (int*int->int) * int -> Expr
+   Same structure as build, with the added datatypes to handle the Abs(x) and Sin_XYZ operations.
+ *)
 
 let rec build2 (rand,depth) =
   if depth = 0 then let option = rand (0,2) in
@@ -61,13 +71,13 @@ let rec build2 (rand,depth) =
  * they should return (depth,seed1,seed2)
  *)
 
-let g1 () = failwith "to be implemented"
-let g2 () = failwith "to be implemented"  
-let g3 () = failwith "to be implemented"  
+let g1 () = (8,300,450) (* Using doRandomGray *)
+let g2 () = (9,300,450) (* Using doRandomGray2 *)
+let g3 () = (10,7,200)  (* Using doRandomGray2 *)
 
-let c1 () = failwith "to be implemented"
-let c2 () = failwith "to be implemented" 
-let c3 () = failwith "to be implemented" 
+let c1 () = (10,1200,3) (* Using doRandomColor *)
+let c2 () = (11,20,8)   (* Using doRandomColor2 *)
+let c3 () = (8,11,11)   (* Using doRandomColor *)
 
 (**** You should not need to modify any code below here ****)
 
