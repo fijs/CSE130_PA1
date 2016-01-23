@@ -20,11 +20,12 @@ type expr =
   | Average       of expr * expr
   | Times         of expr * expr
   | Thresh        of expr * expr * expr * expr
-  | Addition      of expr * expr
-  | Distance_2D   of expr * expr * expr * expr
+  | Abs           of expr
+  | Sin_XYZ       of expr * expr * expr
 
 (*
   # exprToString (Thresh(VarX,VarY,VarX,(Times(Sine(VarX),Cosine(Average(VarX,VarY))))));;
+  # exprToString (Sin_XYZ(VarX,VarY,VarX);;
   - :       string = "(x<y?x:sin(pi*x)*cos(pi*((x+y)/2)))"
   print:    string = "(x<y?x:sin(pi*x)*cos(pi*((x+y)/2)))"
 (e<e ? e : e)
@@ -39,9 +40,8 @@ let rec exprToString e =
   | Average (e1,e2)                 -> "(("^exprToString e1^"+"^exprToString e2^")/2)"
   | Times (e1,e2)                   -> exprToString e1^"*"^exprToString e2
   | Thresh (e1,e2,e3,e4)            -> "("^exprToString e1^"<"^exprToString e2^"?"^exprToString e3^":"^exprToString e4^")"
-  | Addition (e1,e2)                -> exprToString e1^"+"^exprToString e2
-  | Distance_2D (ex1,ey1,ex2,ey2)   -> 
-  "sqrt((("^exprToString ex1^"-"^exprToString ex2^"))^2"^"+"^"(("^exprToString ey1^"-"^exprToString ey2^"))^2)"
+  | Abs e'                          -> "ABS("^exprToString e'^")"
+  | Sin_XYZ (eX,eY,eZ)              -> "sin(pi*"^exprToString eX^"*"^exprToString eY^"*"^exprToString eZ^")"
 
 (* build functions:
      Use these helper functions to generate elements of the expr
@@ -55,8 +55,8 @@ let buildCosine(e)                      = Cosine(e)
 let buildAverage(e1,e2)                 = Average(e1,e2)
 let buildTimes(e1,e2)                   = Times(e1,e2)
 let buildThresh(a,b,a_less,b_less)      = Thresh(a,b,a_less,b_less)
-let buildAddition(e1,e2)                = Addition(e1,e2)
-let buildDistance_2D(ex1,ey1,ex2,ey2)   = Distance_2D(ex1,ey1,ex2,ey2)
+let buildAbs(e)                         = Abs(e)
+let buildSin_XYZ(eX,eY,eZ)              = Sin_XYZ(eX,eY,eZ)
 
 
 let pi = 4.0 *. atan 1.0
@@ -65,16 +65,15 @@ let pi = 4.0 *. atan 1.0
 
 let rec eval (e,x,y) =
   match e with
-    | VarX                            -> x
-    | VarY                            -> y
-    | Sine e'                         -> sin(pi *. (eval (e',x,y)))
-    | Cosine e'                       -> cos(pi *. (eval (e',x,y)))
-    | Average (e1,e2)                 -> ((eval (e1,x,y) +. eval (e2,x,y))/.2.0)
-    | Times (e1,e2)                   -> eval (e1,x,y) *. eval (e2,x,y)
-    | Thresh (e1,e2,e3,e4)            -> if eval (e1,x,y) < eval (e2,x,y) then eval (e3,x,y) else eval (e4,x,y)
-    | Addition (e1,e2)                -> eval (e1,x,y) +. eval (e2,x,y)
-    | Distance_2D (ex1,ey1,ex2,ey2)   -> 
-    sqrt( ( ( eval (ex1,x,y) -. eval (ex2,x,y) ) ** 2.0 ) +. ( ( eval (ex2,x,y) -. eval (ey2,x,y) ) ** 2.0 ) )
+    | VarX                       -> x
+    | VarY                       -> y
+    | Sine e'                    -> sin(pi *. (eval (e',x,y)))
+    | Cosine e'                  -> cos(pi *. (eval (e',x,y)))
+    | Average (e1,e2)            -> ((eval (e1,x,y) +. eval (e2,x,y))/.2.0)
+    | Times (e1,e2)              -> eval (e1,x,y) *. eval (e2,x,y)
+    | Thresh (e1,e2,e3,e4)       -> if eval (e1,x,y) < eval (e2,x,y) then eval (e3,x,y) else eval (e4,x,y)
+    | Abs e'                     -> abs_float (eval (e',x,y))
+    | Sin_XYZ (eX,eY,eZ)         -> sin(pi *. ( (eval (eX,x,y)) *. (eval (eY,x,y)) *. (eval (eZ,x,y)) ) )  
 
 (* (eval_fn e (x,y)) evaluates the expression e at the point (x,y) and then
  * verifies that the result is between -1 and 1.  If it is, the result is returned.  
@@ -95,9 +94,5 @@ let sampleExpr =
 
 let sampleExpr2 =
   buildThresh(buildX(),buildY(),buildSine(buildX()),buildCosine(buildY()))
-
-let sampleExpr3 = 
-  exprToString (Distance_2D(VarX,VarY,VarX,VarY));;
-
 
 (************** Add Testing Code Here ***************)

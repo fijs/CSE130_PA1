@@ -48,8 +48,8 @@ let rec build2 (rand,depth) =
     | 4 -> buildAverage(build2 (rand,(depth-1) ),build2 (rand,(depth-1) ))
     | 5 -> buildTimes(build2 (rand,(depth-1) ),build2 (rand,(depth-1) ))
     | 6 -> buildThresh(build2 (rand,(depth-1) ),build2 (rand,(depth-1) ),build2 (rand,(depth-1) ),build2 (rand,(depth-1) ))
-    | 7 -> buildAddition(build2 (rand,(depth-1) ),build2 (rand,(depth-1) ))
-    | _ -> buildDistance_2D(build2 (rand,(depth-1) ),build2 (rand,(depth-1) ),build2 (rand,(depth-1) ),build2 (rand,(depth-1) ))
+    | 7 -> buildAbs(build2 (rand,(depth-1) ) )
+    | _ -> buildSin_XYZ(build2 (rand,(depth-1) ),build2 (rand,(depth-1) ),build2 (rand,(depth-1) ) )
 
 (* Please fill in ALL of g1,g2,g3,c1,c2,c3 regardless of whether you
  * are aiming for extra credit. 
