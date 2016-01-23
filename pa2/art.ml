@@ -34,7 +34,22 @@ let rec build (rand,depth) =
     | 5 -> buildTimes(build (rand,(depth-1) ),build (rand,(depth-1) ))
     | _ -> buildThresh(build (rand,(depth-1) ),build (rand,(depth-1) ),build (rand,(depth-1) ),build (rand,(depth-1) ))
 
-let rec build2 (rand,depth) = failwith "to be implemented"
+let rec build2 (rand,depth) =
+  if depth = 0 then let option = rand (0,2) in
+    match option with
+    | 0 -> buildX()
+    | _ -> buildY()
+  else let option = rand (0,9) in
+    match option with
+    | 0 -> buildX()
+    | 1 -> buildY()
+    | 2 -> buildSine( build2 (rand,(depth-1) ) )
+    | 3 -> buildCosine(build2 (rand,(depth-1) ))
+    | 4 -> buildAverage(build2 (rand,(depth-1) ),build2 (rand,(depth-1) ))
+    | 5 -> buildTimes(build2 (rand,(depth-1) ),build2 (rand,(depth-1) ))
+    | 6 -> buildThresh(build2 (rand,(depth-1) ),build2 (rand,(depth-1) ),build2 (rand,(depth-1) ),build2 (rand,(depth-1) ))
+    | 7 -> buildAddition(build2 (rand,(depth-1) ),build2 (rand,(depth-1) ))
+    | _ -> buildDistance_2D(build2 (rand,(depth-1) ),build2 (rand,(depth-1) ),build2 (rand,(depth-1) ),build2 (rand,(depth-1) ))
 
 (* Please fill in ALL of g1,g2,g3,c1,c2,c3 regardless of whether you
  * are aiming for extra credit. 
