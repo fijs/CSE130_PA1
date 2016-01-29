@@ -1,4 +1,5 @@
-(* CSE 130: Programming Assignment 3
+(* CSE 130: Programming Assignment 3 WI16
+ * Fernando I Jaime
  * misc.ml
  *)
 
@@ -30,14 +31,16 @@
 (*****************************************************************)
 
 let sqsum xs = 
-  let f a x = failwith "to be implemented" in
-  let base = failwith "to be implemented" in
+  let f a x = a + (x * x) in
+  let base = 0 in
     List.fold_left f base xs
 
 let pipe fs = 
-  let f a x = failwith "to be implemented" in
-  let base = failwith "to be implemented" in
+  let f a x = fun b -> x (a b) in
+  let base = fun a -> a in
     List.fold_left f base fs
+
+(* val pipe : (('a -> 'a) -> 'a) list -> 'a -> 'a = <fun> *)
 
 let rec sepConcat sep sl = match sl with 
   | [] -> ""
