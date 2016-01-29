@@ -19,7 +19,7 @@ type expr =
   | Cosine   of expr
   | Average  of expr * expr
   | Times    of expr * expr
-  | Thresh   of expr * expr * expr * expr;;
+  | Thresh   of expr * expr * expr * expr
 
 (*
   # exprToString (Thresh(VarX,VarY,VarX,(Times(Sine(VarX),Cosine(Average(VarX,VarY))))));;
