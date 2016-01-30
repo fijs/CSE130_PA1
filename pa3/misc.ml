@@ -50,7 +50,8 @@ let rec sepConcat sep sl = match sl with
       let l = t in
         List.fold_left f base l
 
-let stringOfList f l = failwith "to be implemented"
+let stringOfList f l = "["^(sepConcat "; " (List.map f l))^"]"
+(* why does this not work and the above does? recursion! sepConcat ";" (List.map f l) *)
 
 (*****************************************************************)
 (******************* 2. Big Numbers ******************************)
