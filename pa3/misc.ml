@@ -57,7 +57,14 @@ let stringOfList f l = "["^(sepConcat "; " (List.map f l))^"]"
 (******************* 2. Big Numbers ******************************)
 (*****************************************************************)
 
-let rec clone x n = failwith "to be implemented" 
+let rec clone x n =
+  let rec helper x n l =
+    if n = 0 then x::l
+    else helper x (n-1) (x::l)
+  in
+  if n <= 0 then []
+  else helper x (n-1) []  
+
 
 let rec padZero l1 l2 = failwith "to be implemented"
 
