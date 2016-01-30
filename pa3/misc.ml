@@ -19,29 +19,47 @@
 *)
 
 
-
 (* Do not change the skeleton code! The point of this assignment is to figure
  * out how the functions can be written this way (using fold). You may only
  * replace the   failwith "to be implemented"   part. *)
-
 
 
 (*****************************************************************)
 (******************* 1. Warm Up   ********************************)
 (*****************************************************************)
 
+
+(* Function sqsum : int list -> int = <fun>
+   Gives the sum of the squares of every element in the list.
+   Uses List.fold_left to fold function f a x over the list.
+   Base case is zero as the sum of no elements is zero.
+ *)
 let sqsum xs = 
   let f a x = a + (x * x) in
   let base = 0 in
     List.fold_left f base xs
 
+(* Function pipe : ('a -> 'a) list -> 'a -> 'a = <fun>
+   The base case is a function which takes an input a and returns a. 
+   The function f a x implements a curried function which takes an
+   input b and applies function x to the result of applying function
+   a to b, recursively.
+   Uses List.fold_left to fold function f a x over the list.
+ *)
 let pipe fs = 
   let f a x = fun b -> x (a b) in
   let base = fun a -> a in
     List.fold_left f base fs
 
-(* val pipe : (('a -> 'a) -> 'a) list -> 'a -> 'a = <fun> *)
-
+(* Function sepConcat : string -> string list -> string = <fun>
+   This function takes a string sep to be used as a separator
+   between elements of a list sl. The base cases are:
+   [] -> "" and s1 -> s1.
+   The recursive case uses List.fold_left to apply the function
+   f a x to every element in the list, which concatenates the 
+   accumulator input with the separator and the head of the rest
+   of the list (x). 
+ *)
 let rec sepConcat sep sl = match sl with 
   | [] -> ""
   | h :: t -> 
@@ -50,13 +68,28 @@ let rec sepConcat sep sl = match sl with
       let l = t in
         List.fold_left f base l
 
+(* Function stringOfList : ('a -> string) -> 'a list -> string = <fun>
+   This function is implemented through calls to sepConcat using the 
+   usual list separator "; ", and passing a call to (List.map f l) as
+   the list argument to sepConcat. We concatenate the results of those
+   two function calls to starting and ending brackets so we get back 
+   the list in string form. 
+ *)
 let stringOfList f l = "["^(sepConcat "; " (List.map f l))^"]"
 (* why does this not work and the above does? recursion! sepConcat ";" (List.map f l) *)
+
 
 (*****************************************************************)
 (******************* 2. Big Numbers ******************************)
 (*****************************************************************)
 
+
+(* Function clone : 'a -> int -> 'a list = <fun>
+   This function takes in an object x and clones it n times into a list
+   by using a recursive helper function. The base case is for n to be 
+   <= 0, in which case [] is returned. The recursive case involves using
+   helper to recursively cons x to an accumulator list l n-1 times.
+ *)
 let rec clone x n =
   let rec helper x n l =
     if n = 0 then x::l
@@ -65,11 +98,34 @@ let rec clone x n =
   if n <= 0 then []
   else helper x (n-1) []  
 
+(* Function padZero : int list -> int list -> int list * int list = <fun>
+   Takes two lists and if they are not of equal length, pads the shorter
+   list with zeros at the front using clone with arguments 0 and diff. 
+   The result of the call to clone is appended to the passed in list using
+   List.append, while diff is simply the length difference between the two lists.
+   After padding, the function returns both lists as a tuple.
+ *)
+let rec padZero l1 l2 = 
+  let diff = List.length l1 - List.length l2 in
+  if diff < 0 then (List.append ( clone 0 (-1*diff) ) l1, l2)
+  else if diff > 0 then (l1, List.append ( clone 0 (diff) ) l2)
+  else (l1, l2) 
 
-let rec padZero l1 l2 = failwith "to be implemented"
+(* Function removeZero : int list -> int list = <fun>
+   The function recursively breaks down the list l
+   by pattern matching and using the h::t operation.
+   As long as the head of the list continues to be zero,
+   the function will recurse. Once h != 0, the tail of 
+   the list is returned. If the entire list is zeroes, 
+   the empty list is returned.
+ *)
+let rec removeZero l = 
+  match l with
+  | [] -> []
+  | h::t -> ( if h = 0 then removeZero t else l )
 
-let rec removeZero l = failwith "to be implemented"
-
+(* Function 
+ *)
 let bigAdd l1 l2 = 
   let add (l1, l2) = 
     let f a x = failwith "to be implemented" in
