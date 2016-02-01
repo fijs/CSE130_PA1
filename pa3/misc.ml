@@ -154,7 +154,12 @@ let bigAdd l1 l2 =
   in 
     removeZero (add (padZero l1 l2))
 
-let rec mulByDigit i l = failwith "to be implemented"
+let rec mulByDigit i l = 
+  let rec helper i l og_l = 
+    if i > 1 then helper (i-1) (bigAdd l og_l) og_l
+      else l
+  in
+  helper i l l
 
 let bigMul l1 l2 = 
   let f a x = failwith "to be implemented" in
