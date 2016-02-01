@@ -124,13 +124,31 @@ let rec removeZero l =
   | [] -> []
   | h::t -> ( if h = 0 then removeZero t else l )
 
-(* Function 
+(* Function bigAdd : int list -> int list -> int list = <fun>
+   The function uses a helper function "add" that takes in 
+   two int lists as a tuple. Add uses List.fold_left
+   to apply the function f a x to every element. The function
+   f breaks down every new tuple in the list x into x1 and x2
+   and sums them into the variable r. The input a is split 
+   into carry and sum, and we match sum  with either the 
+   empty list for the base case or a list for the 
+   recursive case. 
  *)
 let bigAdd l1 l2 = 
   let add (l1, l2) = 
-    let f a x = failwith "to be implemented" in
-    let base = failwith "to be implemented" in
-    let args = failwith "to be implemented" in
+    let f a x =
+      let (x1,x2) = x in
+        let r = x1 + x2 in
+      match a with
+      | (carry, sum) -> match sum with
+        (* Store both carry and remainder in the list *)
+        | []   -> ( r/10 , (r/10)::[r mod 10] )
+        (* H is the carry from the previous operation, use it to 
+          computer the new sum and carry, then discard *)
+        | h::t -> ( (r+carry)/10 , ((r+h)/10)::([(r+h) mod 10]@t)  ) 
+    in
+    let base = (0,[]) in
+    let args = List.rev (List.combine l1 l2) in
     let (_, res) = List.fold_left f base args in
       res
   in 
