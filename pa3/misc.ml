@@ -154,16 +154,25 @@ let bigAdd l1 l2 =
   in 
     removeZero (add (padZero l1 l2))
 
+(* Function mulByDigit : int -> int list -> int list = <fun>
+   The function uses a helper function to recursively call 
+   bidAdd on the original list i number of times. 
+ *)
 let rec mulByDigit i l = 
   let rec helper i l og_l = 
     if i > 1 then helper (i-1) (bigAdd l og_l) og_l
       else l
   in
-  helper i l l
+  if i <= 0 then []
+    else helper i l l
 
+(* Function bigMul : int list -> int list -> int list = <fun>
+ *)
 let bigMul l1 l2 = 
-  let f a x = failwith "to be implemented" in
-  let base = failwith "to be implemented" in
-  let args = failwith "to be implemented" in
+  let f a x = 
+
+  in
+  let base = (0,[]) in
+  let args = l2 in
   let (_, res) = List.fold_left f base args in
     res
