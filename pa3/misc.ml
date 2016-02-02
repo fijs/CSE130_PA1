@@ -167,10 +167,18 @@ let rec mulByDigit i l =
     else helper i l l
 
 (* Function bigMul : int list -> int list -> int list = <fun>
+   This function takes in two lists l1 and l2. The function
+   uses List.fold_left to apply f a x over every element in l2.
+   l1 is used as a constant in every iteration of the f a x function.
+   The function f takes the accumulator variable a and match splits it
+   into carry and sum. We operate over sum to add to it the result
+   of the multiplication of the current digit of l2 and l1. Then
+   we add as many zeros as dictated by carry, and increase our carry.
  *)
 let bigMul l1 l2 = 
   let f a x = 
-
+    match a with
+    | (carry, sum) -> (carry+1, bigAdd ((mulByDigit x l1)@(clone 0 carry)) sum )
   in
   let base = (0,[]) in
   let args = l2 in
