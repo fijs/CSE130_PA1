@@ -3,7 +3,7 @@
   open NanoParse   (* nanoParse.ml from nanoParse.mly *)
 }
 
-(* comment *)
+(* comment more *)
 rule token = parse
   | [' ' '\t' '\n' '\r']    { token lexbuf }
   | eof         { EOF }
