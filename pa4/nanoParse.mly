@@ -4,8 +4,10 @@
 open Nano 
 %}
 
-%token <int> Num
-%token EOF
+%token <int>  	Num
+%token <string> Id
+%token  		TRUE FALSE
+%token 			EOF
 
 %start exp 
 %type <Nano.expr> exp
