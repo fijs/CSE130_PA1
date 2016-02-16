@@ -3,490 +3,634 @@ type(
   Lexing.lex_tables
 )
 ident(
-  def __ocaml_lex_tables "nanoLex.ml" 312 20227 20227 "nanoLex.ml" 1 0 -1
+  def __ocaml_lex_tables "nanoLex.ml" 639 43181 43181 "nanoLex.ml" 1 0 -1
 )
-"nanoLex.ml" 9 176 179 "nanoLex.ml" 11 316 329
+"nanoLex.ml" 9 176 179 "nanoLex.ml" 14 526 587
 type(
   string
 )
-"nanoLex.ml" 13 355 358 "nanoLex.ml" 15 495 508
+"nanoLex.ml" 16 613 616 "nanoLex.ml" 21 963 1024
 type(
   string
 )
-"nanoLex.ml" 17 534 537 "nanoLex.ml" 19 674 687
+"nanoLex.ml" 23 1050 1053 "nanoLex.ml" 28 1400 1461
 type(
   string
 )
-"nanoLex.ml" 21 711 714 "nanoLex.ml" 158 10301 10354
+"nanoLex.ml" 30 1485 1488 "nanoLex.ml" 326 22205 22218
 type(
   string
 )
-"nanoLex.ml" 160 10378 10381 "nanoLex.ml" 297 19968 20021
+"nanoLex.ml" 328 22242 22245 "nanoLex.ml" 624 42962 42975
 type(
   string
 )
-"nanoLex.ml" 299 20049 20052 "nanoLex.ml" 299 20049 20054
+"nanoLex.ml" 626 43003 43006 "nanoLex.ml" 626 43003 43008
 type(
   string
 )
-"nanoLex.ml" 301 20085 20088 "nanoLex.ml" 301 20085 20090
+"nanoLex.ml" 628 43039 43042 "nanoLex.ml" 628 43039 43044
 type(
   string
 )
-"nanoLex.ml" 303 20121 20124 "nanoLex.ml" 303 20121 20126
+"nanoLex.ml" 630 43075 43078 "nanoLex.ml" 630 43075 43080
 type(
   string
 )
-"nanoLex.ml" 305 20155 20158 "nanoLex.ml" 305 20155 20160
+"nanoLex.ml" 632 43109 43112 "nanoLex.ml" 632 43109 43114
 type(
   string
 )
-"nanoLex.ml" 307 20189 20192 "nanoLex.ml" 307 20189 20194
+"nanoLex.ml" 634 43143 43146 "nanoLex.ml" 634 43143 43148
 type(
   string
 )
-"nanoLex.ml" 309 20217 20220 "nanoLex.ml" 309 20217 20222
+"nanoLex.ml" 636 43171 43174 "nanoLex.ml" 636 43171 43176
 type(
   string
 )
-"nanoLex.ml" 7 128 153 "nanoLex.ml" 310 20224 20225
+"nanoLex.ml" 7 128 153 "nanoLex.ml" 637 43178 43179
 type(
   Lexing.lex_tables
 )
-"nanoLex.ml" 312 20227 20235 "nanoLex.ml" 312 20227 20240
+"nanoLex.ml" 639 43181 43189 "nanoLex.ml" 639 43181 43194
 type(
   Lexing.lexbuf -> NanoParse.token
 )
 ident(
-  def token "nanoLex.ml" 312 20227 20227 "nanoLex.ml" 1 0 -1
+  def token "nanoLex.ml" 639 43181 43181 "nanoLex.ml" 1 0 -1
 )
-"nanoLex.ml" 312 20227 20241 "nanoLex.ml" 312 20227 20247
+"nanoLex.ml" 639 43181 43195 "nanoLex.ml" 639 43181 43201
 type(
   Lexing.lexbuf
 )
 ident(
-  def lexbuf "nanoLex.ml" 313 20250 20254 "nanoLex.ml" 313 20250 20284
+  def lexbuf "nanoLex.ml" 640 43204 43208 "nanoLex.ml" 640 43204 43238
 )
-"nanoLex.ml" 313 20250 20254 "nanoLex.ml" 313 20250 20275
+"nanoLex.ml" 640 43204 43208 "nanoLex.ml" 640 43204 43229
 type(
   Lexing.lexbuf -> int -> NanoParse.token
 )
 ident(
-  int_ref __ocaml_lex_token_rec "nanoLex.ml" 314 20285 20289 "nanoLex.ml" 314 20285 20310
+  int_ref __ocaml_lex_token_rec "nanoLex.ml" 641 43239 43243 "nanoLex.ml" 641 43239 43264
 )
-"nanoLex.ml" 313 20250 20276 "nanoLex.ml" 313 20250 20282
+"nanoLex.ml" 640 43204 43230 "nanoLex.ml" 640 43204 43236
 type(
   Lexing.lexbuf
 )
 ident(
-  int_ref lexbuf "nanoLex.ml" 312 20227 20241 "nanoLex.ml" 312 20227 20247
+  int_ref lexbuf "nanoLex.ml" 639 43181 43195 "nanoLex.ml" 639 43181 43201
 )
-"nanoLex.ml" 313 20250 20283 "nanoLex.ml" 313 20250 20284
+"nanoLex.ml" 640 43204 43237 "nanoLex.ml" 640 43204 43238
 type(
   int
 )
-"nanoLex.ml" 313 20250 20254 "nanoLex.ml" 313 20250 20284
+"nanoLex.ml" 640 43204 43208 "nanoLex.ml" 640 43204 43238
 call(
   tail
 )
 type(
   NanoParse.token
 )
-"nanoLex.ml" 314 20285 20289 "nanoLex.ml" 314 20285 20310
+"nanoLex.ml" 641 43239 43243 "nanoLex.ml" 641 43239 43264
 type(
   Lexing.lexbuf -> int -> NanoParse.token
 )
 ident(
-  def __ocaml_lex_token_rec "nanoLex.ml" 312 20227 20227 "nanoLex.ml" 1 0 -1
+  def __ocaml_lex_token_rec "nanoLex.ml" 639 43181 43181 "nanoLex.ml" 1 0 -1
 )
-"nanoLex.ml" 314 20285 20311 "nanoLex.ml" 314 20285 20317
+"nanoLex.ml" 641 43239 43265 "nanoLex.ml" 641 43239 43271
 type(
   Lexing.lexbuf
 )
 ident(
-  def lexbuf "nanoLex.ml" 314 20285 20318 "nanoLex.ml" 362 21473 21525
+  def lexbuf "nanoLex.ml" 641 43239 43272 "nanoLex.ml" 779 45642 45694
 )
-"nanoLex.ml" 314 20285 20318 "nanoLex.ml" 314 20285 20335
+"nanoLex.ml" 641 43239 43272 "nanoLex.ml" 641 43239 43289
 type(
   int
 )
 ident(
-  def __ocaml_lex_state "nanoLex.ml" 315 20338 20340 "nanoLex.ml" 362 21473 21525
+  def __ocaml_lex_state "nanoLex.ml" 642 43292 43294 "nanoLex.ml" 779 45642 45694
 )
-"nanoLex.ml" 315 20338 20346 "nanoLex.ml" 315 20338 20359
+"nanoLex.ml" 642 43292 43300 "nanoLex.ml" 642 43292 43313
 type(
   Lexing.lex_tables -> int -> Lexing.lexbuf -> int
 )
 ident(
   ext_ref Lexing.engine
 )
-"nanoLex.ml" 315 20338 20360 "nanoLex.ml" 315 20338 20378
+"nanoLex.ml" 642 43292 43314 "nanoLex.ml" 642 43292 43332
 type(
   Lexing.lex_tables
 )
 ident(
   int_ref __ocaml_lex_tables "nanoLex.ml" 7 128 132 "nanoLex.ml" 7 128 150
 )
-"nanoLex.ml" 315 20338 20379 "nanoLex.ml" 315 20338 20396
+"nanoLex.ml" 642 43292 43333 "nanoLex.ml" 642 43292 43350
 type(
   int
 )
 ident(
-  int_ref __ocaml_lex_state "nanoLex.ml" 314 20285 20318 "nanoLex.ml" 314 20285 20335
+  int_ref __ocaml_lex_state "nanoLex.ml" 641 43239 43272 "nanoLex.ml" 641 43239 43289
 )
-"nanoLex.ml" 315 20338 20397 "nanoLex.ml" 315 20338 20403
+"nanoLex.ml" 642 43292 43351 "nanoLex.ml" 642 43292 43357
 type(
   Lexing.lexbuf
 )
 ident(
-  int_ref lexbuf "nanoLex.ml" 314 20285 20311 "nanoLex.ml" 314 20285 20317
+  int_ref lexbuf "nanoLex.ml" 641 43239 43265 "nanoLex.ml" 641 43239 43271
 )
-"nanoLex.ml" 315 20338 20346 "nanoLex.ml" 315 20338 20403
+"nanoLex.ml" 642 43292 43300 "nanoLex.ml" 642 43292 43357
 call(
   stack
 )
 type(
   int
 )
-"nanoLex.ml" 316 20409 20417 "nanoLex.ml" 316 20409 20418
+"nanoLex.ml" 643 43363 43371 "nanoLex.ml" 643 43363 43372
 type(
   int
 )
-"nanoLex.mll" 7 20440 20470 "nanoLex.mll" 7 20440 20475
-type(
-  Lexing.lexbuf -> NanoParse.token
-)
-ident(
-  int_ref token "nanoLex.ml" 312 20227 20235 "nanoLex.ml" 312 20227 20240
-)
-"nanoLex.mll" 7 20440 20476 "nanoLex.mll" 7 20440 20482
-type(
-  Lexing.lexbuf
-)
-ident(
-  int_ref lexbuf "nanoLex.ml" 314 20285 20311 "nanoLex.ml" 314 20285 20317
-)
-"nanoLex.mll" 7 20440 20468 "nanoLex.mll" 7 20440 20484
-call(
-  tail
-)
+"nanoLex.mll" 8 43394 43406 "nanoLex.mll" 8 43394 43414
 type(
   NanoParse.token
 )
-"nanoLex.ml" 321 20505 20509 "nanoLex.ml" 321 20505 20510
+"nanoLex.ml" 648 43435 43439 "nanoLex.ml" 648 43435 43440
 type(
   int
 )
-"nanoLex.mll" 8 20532 20548 "nanoLex.mll" 8 20532 20555
+"nanoLex.mll" 9 43462 43475 "nanoLex.mll" 9 43462 43484
 type(
   NanoParse.token
 )
-"nanoLex.ml" 326 20576 20580 "nanoLex.ml" 326 20576 20581
+"nanoLex.ml" 653 43505 43509 "nanoLex.ml" 653 43505 43510
 type(
   int
 )
-"nanoLex.mll" 9 20603 20621 "nanoLex.mll" 9 20603 20626
-type(
-  exn -> NanoParse.token
-)
-ident(
-  ext_ref Pervasives.raise
-)
-"nanoLex.mll" 9 20603 20639 "nanoLex.mll" 9 20603 20660
-type(
-  string
-)
-"nanoLex.mll" 9 20603 20660 "nanoLex.mll" 9 20603 20661
-type(
-  string -> string -> string
-)
-ident(
-  ext_ref Pervasives.( ^ )
-)
-"nanoLex.mll" 9 20603 20662 "nanoLex.mll" 9 20603 20675
-type(
-  Lexing.lexbuf -> string
-)
-ident(
-  ext_ref Lexing.lexeme
-)
-"nanoLex.mll" 9 20603 20676 "nanoLex.mll" 9 20603 20682
-type(
-  Lexing.lexbuf
-)
-ident(
-  int_ref lexbuf "nanoLex.ml" 314 20285 20311 "nanoLex.ml" 314 20285 20317
-)
-"nanoLex.mll" 9 20603 20661 "nanoLex.mll" 9 20603 20683
-call(
-  stack
-)
-type(
-  string
-)
-"nanoLex.mll" 9 20603 20683 "nanoLex.mll" 9 20603 20684
-type(
-  string -> string -> string
-)
-ident(
-  ext_ref Pervasives.( ^ )
-)
-"nanoLex.mll" 9 20603 20684 "nanoLex.mll" 9 20603 20687
-type(
-  string
-)
-"nanoLex.mll" 9 20603 20661 "nanoLex.mll" 9 20603 20687
-call(
-  stack
-)
-type(
-  string
-)
-"nanoLex.mll" 9 20603 20638 "nanoLex.mll" 9 20603 20688
-call(
-  stack
-)
-type(
-  string
-)
-"nanoLex.mll" 9 20603 20627 "nanoLex.mll" 9 20603 20689
-type(
-  exn
-)
-"nanoLex.mll" 9 20603 20619 "nanoLex.mll" 9 20603 20691
+"nanoLex.mll" 10 43533 43544 "nanoLex.mll" 10 43533 43551
 type(
   NanoParse.token
 )
-"nanoLex.ml" 331 20712 20716 "nanoLex.ml" 331 20712 20717
+"nanoLex.ml" 658 43572 43576 "nanoLex.ml" 658 43572 43577
 type(
   int
 )
-"nanoLex.mll" 10 20744 20762 "nanoLex.mll" 10 20744 20766
+"nanoLex.mll" 11 43600 43611 "nanoLex.mll" 11 43600 43618
+type(
+  NanoParse.token
+)
+"nanoLex.ml" 663 43639 43643 "nanoLex.ml" 663 43639 43644
+type(
+  int
+)
+"nanoLex.mll" 12 43667 43677 "nanoLex.mll" 12 43667 43684
+type(
+  NanoParse.token
+)
+"nanoLex.ml" 668 43705 43709 "nanoLex.ml" 668 43705 43710
+type(
+  int
+)
+"nanoLex.mll" 13 43733 43744 "nanoLex.mll" 13 43733 43751
+type(
+  NanoParse.token
+)
+"nanoLex.ml" 673 43772 43776 "nanoLex.ml" 673 43772 43777
+type(
+  int
+)
+"nanoLex.mll" 14 43800 43811 "nanoLex.mll" 14 43800 43818
+type(
+  NanoParse.token
+)
+"nanoLex.ml" 678 43839 43843 "nanoLex.ml" 678 43839 43844
+type(
+  int
+)
+"nanoLex.mll" 15 43867 43877 "nanoLex.mll" 15 43867 43886
+type(
+  NanoParse.token
+)
+"nanoLex.ml" 683 43907 43911 "nanoLex.ml" 683 43907 43912
+type(
+  int
+)
+"nanoLex.mll" 16 43935 43945 "nanoLex.mll" 16 43935 43951
+type(
+  NanoParse.token
+)
+"nanoLex.ml" 688 43972 43976 "nanoLex.ml" 688 43972 43977
+type(
+  int
+)
+"nanoLex.mll" 17 44000 44012 "nanoLex.mll" 17 44000 44020
+type(
+  NanoParse.token
+)
+"nanoLex.ml" 693 44041 44045 "nanoLex.ml" 693 44041 44047
+type(
+  int
+)
+"nanoLex.mll" 18 44070 44082 "nanoLex.mll" 18 44070 44090
+type(
+  NanoParse.token
+)
+"nanoLex.ml" 698 44111 44115 "nanoLex.ml" 698 44111 44117
+type(
+  int
+)
+"nanoLex.mll" 19 44140 44150 "nanoLex.mll" 19 44140 44158
+type(
+  NanoParse.token
+)
+"nanoLex.ml" 703 44179 44183 "nanoLex.ml" 703 44179 44185
+type(
+  int
+)
+"nanoLex.mll" 20 44208 44218 "nanoLex.mll" 20 44208 44227
+type(
+  NanoParse.token
+)
+"nanoLex.ml" 708 44248 44252 "nanoLex.ml" 708 44248 44254
+type(
+  int
+)
+"nanoLex.mll" 21 44277 44287 "nanoLex.mll" 21 44277 44294
+type(
+  NanoParse.token
+)
+"nanoLex.ml" 713 44315 44319 "nanoLex.ml" 713 44315 44321
+type(
+  int
+)
+"nanoLex.mll" 22 44344 44354 "nanoLex.mll" 22 44344 44361
+type(
+  NanoParse.token
+)
+"nanoLex.ml" 718 44382 44386 "nanoLex.ml" 718 44382 44388
+type(
+  int
+)
+"nanoLex.mll" 23 44411 44421 "nanoLex.mll" 23 44411 44427
+type(
+  NanoParse.token
+)
+"nanoLex.ml" 723 44448 44452 "nanoLex.ml" 723 44448 44454
+type(
+  int
+)
+"nanoLex.mll" 24 44477 44487 "nanoLex.mll" 24 44477 44493
+type(
+  NanoParse.token
+)
+"nanoLex.ml" 728 44514 44518 "nanoLex.ml" 728 44514 44520
+type(
+  int
+)
+"nanoLex.mll" 25 44543 44553 "nanoLex.mll" 25 44543 44559
+type(
+  NanoParse.token
+)
+"nanoLex.ml" 733 44580 44584 "nanoLex.ml" 733 44580 44586
+type(
+  int
+)
+"nanoLex.mll" 26 44609 44619 "nanoLex.mll" 26 44609 44626
+type(
+  NanoParse.token
+)
+"nanoLex.ml" 738 44647 44651 "nanoLex.ml" 738 44647 44653
+type(
+  int
+)
+"nanoLex.mll" 27 44676 44686 "nanoLex.mll" 27 44676 44692
+type(
+  NanoParse.token
+)
+"nanoLex.ml" 743 44713 44717 "nanoLex.ml" 743 44713 44719
+type(
+  int
+)
+"nanoLex.mll" 28 44746 44764 "nanoLex.mll" 28 44746 44768
 type(
   string
 )
 ident(
-  def int1 "nanoLex.mll" 10 20890 20913 "nanoLex.mll" 10 20890 20939
+  def int1 "nanoLex.mll" 28 44892 44915 "nanoLex.mll" 28 44892 44942
 )
-"nanoLex.ml" 336 20786 20788 "nanoLex.ml" 336 20786 20805
+"nanoLex.ml" 748 44788 44790 "nanoLex.ml" 748 44788 44807
 type(
   Lexing.lexbuf -> int -> int -> string
 )
 ident(
   ext_ref Lexing.sub_lexeme
 )
-"nanoLex.ml" 336 20786 20806 "nanoLex.ml" 336 20786 20812
+"nanoLex.ml" 748 44788 44808 "nanoLex.ml" 748 44788 44814
 type(
   Lexing.lexbuf
 )
 ident(
-  int_ref lexbuf "nanoLex.ml" 314 20285 20311 "nanoLex.ml" 314 20285 20317
+  int_ref lexbuf "nanoLex.ml" 641 43239 43265 "nanoLex.ml" 641 43239 43271
 )
-"nanoLex.ml" 336 20786 20813 "nanoLex.ml" 336 20786 20819
+"nanoLex.ml" 748 44788 44815 "nanoLex.ml" 748 44788 44821
 type(
   Lexing.lexbuf
 )
 ident(
-  int_ref lexbuf "nanoLex.ml" 314 20285 20311 "nanoLex.ml" 314 20285 20317
+  int_ref lexbuf "nanoLex.ml" 641 43239 43265 "nanoLex.ml" 641 43239 43271
 )
-"nanoLex.ml" 336 20786 20813 "nanoLex.ml" 336 20786 20840
+"nanoLex.ml" 748 44788 44815 "nanoLex.ml" 748 44788 44842
 type(
   int
 )
-"nanoLex.ml" 336 20786 20841 "nanoLex.ml" 336 20786 20847
+"nanoLex.ml" 748 44788 44843 "nanoLex.ml" 748 44788 44849
 type(
   Lexing.lexbuf
 )
 ident(
-  int_ref lexbuf "nanoLex.ml" 314 20285 20311 "nanoLex.ml" 314 20285 20317
+  int_ref lexbuf "nanoLex.ml" 641 43239 43265 "nanoLex.ml" 641 43239 43271
 )
-"nanoLex.ml" 336 20786 20841 "nanoLex.ml" 336 20786 20867
+"nanoLex.ml" 748 44788 44843 "nanoLex.ml" 748 44788 44869
 type(
   int
 )
-"nanoLex.ml" 336 20786 20788 "nanoLex.ml" 336 20786 20867
+"nanoLex.ml" 748 44788 44790 "nanoLex.ml" 748 44788 44869
 call(
   stack
 )
 type(
   string
 )
-"nanoLex.mll" 10 20890 20919 "nanoLex.mll" 10 20890 20932
+"nanoLex.mll" 28 44892 44921 "nanoLex.mll" 28 44892 44934
 type(
   string -> int
 )
 ident(
   ext_ref Pervasives.int_of_string
 )
-"nanoLex.mll" 10 20890 20933 "nanoLex.mll" 10 20890 20937
+"nanoLex.mll" 28 44892 44935 "nanoLex.mll" 28 44892 44939
 type(
   string
 )
 ident(
-  int_ref int1 "nanoLex.mll" 10 20744 20762 "nanoLex.mll" 10 20744 20766
+  int_ref int1 "nanoLex.mll" 28 44746 44764 "nanoLex.mll" 28 44746 44768
 )
-"nanoLex.mll" 10 20890 20918 "nanoLex.mll" 10 20890 20938
+"nanoLex.mll" 28 44892 44920 "nanoLex.mll" 28 44892 44940
 type(
   int
 )
-"nanoLex.mll" 10 20890 20913 "nanoLex.mll" 10 20890 20939
+"nanoLex.mll" 28 44892 44915 "nanoLex.mll" 28 44892 44942
 type(
   NanoParse.token
 )
-"nanoLex.ml" 332 20721 20721 "nanoLex.mll" 10 20890 20939
+"nanoLex.ml" 744 44723 44723 "nanoLex.mll" 28 44892 44942
 type(
   NanoParse.token
 )
-"nanoLex.ml" 341 20960 20964 "nanoLex.ml" 341 20960 20965
+"nanoLex.ml" 753 44963 44967 "nanoLex.ml" 753 44963 44969
 type(
   int
 )
-"nanoLex.mll" 11 20988 21000 "nanoLex.mll" 11 20988 21008
-type(
-  NanoParse.token
-)
-"nanoLex.ml" 346 21029 21033 "nanoLex.ml" 346 21029 21034
-type(
-  int
-)
-"nanoLex.mll" 12 21057 21070 "nanoLex.mll" 12 21057 21079
-type(
-  NanoParse.token
-)
-"nanoLex.ml" 351 21100 21104 "nanoLex.ml" 351 21100 21105
-type(
-  int
-)
-"nanoLex.mll" 13 21132 21191 "nanoLex.mll" 13 21132 21194
+"nanoLex.mll" 29 44996 45055 "nanoLex.mll" 29 44996 45058
 type(
   string
 )
 ident(
-  def str "nanoLex.mll" 13 21318 21381 "nanoLex.mll" 13 21318 21392
+  def str "nanoLex.mll" 29 45182 45245 "nanoLex.mll" 29 45182 45256
 )
-"nanoLex.ml" 356 21214 21216 "nanoLex.ml" 356 21214 21233
+"nanoLex.ml" 758 45078 45080 "nanoLex.ml" 758 45078 45097
 type(
   Lexing.lexbuf -> int -> int -> string
 )
 ident(
   ext_ref Lexing.sub_lexeme
 )
-"nanoLex.ml" 356 21214 21234 "nanoLex.ml" 356 21214 21240
+"nanoLex.ml" 758 45078 45098 "nanoLex.ml" 758 45078 45104
 type(
   Lexing.lexbuf
 )
 ident(
-  int_ref lexbuf "nanoLex.ml" 314 20285 20311 "nanoLex.ml" 314 20285 20317
+  int_ref lexbuf "nanoLex.ml" 641 43239 43265 "nanoLex.ml" 641 43239 43271
 )
-"nanoLex.ml" 356 21214 21241 "nanoLex.ml" 356 21214 21247
+"nanoLex.ml" 758 45078 45105 "nanoLex.ml" 758 45078 45111
 type(
   Lexing.lexbuf
 )
 ident(
-  int_ref lexbuf "nanoLex.ml" 314 20285 20311 "nanoLex.ml" 314 20285 20317
+  int_ref lexbuf "nanoLex.ml" 641 43239 43265 "nanoLex.ml" 641 43239 43271
 )
-"nanoLex.ml" 356 21214 21241 "nanoLex.ml" 356 21214 21268
+"nanoLex.ml" 758 45078 45105 "nanoLex.ml" 758 45078 45132
 type(
   int
 )
-"nanoLex.ml" 356 21214 21269 "nanoLex.ml" 356 21214 21275
+"nanoLex.ml" 758 45078 45133 "nanoLex.ml" 758 45078 45139
 type(
   Lexing.lexbuf
 )
 ident(
-  int_ref lexbuf "nanoLex.ml" 314 20285 20311 "nanoLex.ml" 314 20285 20317
+  int_ref lexbuf "nanoLex.ml" 641 43239 43265 "nanoLex.ml" 641 43239 43271
 )
-"nanoLex.ml" 356 21214 21269 "nanoLex.ml" 356 21214 21295
+"nanoLex.ml" 758 45078 45133 "nanoLex.ml" 758 45078 45159
 type(
   int
 )
-"nanoLex.ml" 356 21214 21216 "nanoLex.ml" 356 21214 21295
+"nanoLex.ml" 758 45078 45080 "nanoLex.ml" 758 45078 45159
 call(
   stack
 )
 type(
   string
 )
-"nanoLex.mll" 13 21318 21385 "nanoLex.mll" 13 21318 21390
+"nanoLex.mll" 29 45182 45249 "nanoLex.mll" 29 45182 45254
 type(
   string
 )
 ident(
-  int_ref str "nanoLex.mll" 13 21132 21191 "nanoLex.mll" 13 21132 21194
+  int_ref str "nanoLex.mll" 29 44996 45055 "nanoLex.mll" 29 44996 45058
 )
-"nanoLex.mll" 13 21318 21381 "nanoLex.mll" 13 21318 21392
+"nanoLex.mll" 29 45182 45245 "nanoLex.mll" 29 45182 45256
 type(
   NanoParse.token
 )
-"nanoLex.ml" 352 21109 21109 "nanoLex.mll" 13 21318 21392
+"nanoLex.ml" 754 44973 44973 "nanoLex.mll" 29 45182 45256
 type(
   NanoParse.token
 )
-"nanoLex.ml" 361 21413 21417 "nanoLex.ml" 361 21413 21434
+"nanoLex.ml" 763 45277 45281 "nanoLex.ml" 763 45277 45283
 type(
   int
 )
-ident(
-  def __ocaml_lex_state "nanoLex.ml" 361 21413 21438 "nanoLex.ml" 362 21473 21525
+"nanoLex.mll" 30 45306 45336 "nanoLex.mll" 30 45306 45341
+type(
+  Lexing.lexbuf -> NanoParse.token
 )
-"nanoLex.ml" 361 21413 21438 "nanoLex.ml" 361 21413 21444
+ident(
+  int_ref token "nanoLex.ml" 639 43181 43189 "nanoLex.ml" 639 43181 43194
+)
+"nanoLex.mll" 30 45306 45342 "nanoLex.mll" 30 45306 45348
 type(
   Lexing.lexbuf
 )
 ident(
-  int_ref lexbuf "nanoLex.ml" 314 20285 20311 "nanoLex.ml" 314 20285 20317
+  int_ref lexbuf "nanoLex.ml" 641 43239 43265 "nanoLex.ml" 641 43239 43271
 )
-"nanoLex.ml" 361 21413 21438 "nanoLex.ml" 361 21413 21463
-type(
-  Lexing.lexbuf -> unit
-)
-"nanoLex.ml" 361 21413 21464 "nanoLex.ml" 361 21413 21470
-type(
-  Lexing.lexbuf
-)
-ident(
-  int_ref lexbuf "nanoLex.ml" 314 20285 20311 "nanoLex.ml" 314 20285 20317
-)
-"nanoLex.ml" 361 21413 21438 "nanoLex.ml" 361 21413 21470
-call(
-  stack
-)
-type(
-  unit
-)
-"nanoLex.ml" 362 21473 21479 "nanoLex.ml" 362 21473 21500
-type(
-  Lexing.lexbuf -> int -> NanoParse.token
-)
-ident(
-  int_ref __ocaml_lex_token_rec "nanoLex.ml" 314 20285 20289 "nanoLex.ml" 314 20285 20310
-)
-"nanoLex.ml" 362 21473 21501 "nanoLex.ml" 362 21473 21507
-type(
-  Lexing.lexbuf
-)
-ident(
-  int_ref lexbuf "nanoLex.ml" 314 20285 20311 "nanoLex.ml" 314 20285 20317
-)
-"nanoLex.ml" 362 21473 21508 "nanoLex.ml" 362 21473 21525
-type(
-  int
-)
-ident(
-  int_ref __ocaml_lex_state "nanoLex.ml" 361 21413 21417 "nanoLex.ml" 361 21413 21434
-)
-"nanoLex.ml" 362 21473 21479 "nanoLex.ml" 362 21473 21525
+"nanoLex.mll" 30 45306 45334 "nanoLex.mll" 30 45306 45350
 call(
   tail
 )
 type(
   NanoParse.token
 )
-"nanoLex.ml" 361 21413 21438 "nanoLex.ml" 362 21473 21525
+"nanoLex.ml" 768 45371 45375 "nanoLex.ml" 768 45371 45377
+type(
+  int
+)
+"nanoLex.mll" 31 45400 45416 "nanoLex.mll" 31 45400 45423
 type(
   NanoParse.token
 )
-"nanoLex.ml" 315 20338 20340 "nanoLex.ml" 362 21473 21525
+"nanoLex.ml" 773 45444 45448 "nanoLex.ml" 773 45444 45450
+type(
+  int
+)
+"nanoLex.mll" 32 45473 45491 "nanoLex.mll" 32 45473 45496
+type(
+  exn -> NanoParse.token
+)
+ident(
+  ext_ref Pervasives.raise
+)
+"nanoLex.mll" 32 45473 45509 "nanoLex.mll" 32 45473 45530
+type(
+  string
+)
+"nanoLex.mll" 32 45473 45530 "nanoLex.mll" 32 45473 45531
+type(
+  string -> string -> string
+)
+ident(
+  ext_ref Pervasives.( ^ )
+)
+"nanoLex.mll" 32 45473 45532 "nanoLex.mll" 32 45473 45545
+type(
+  Lexing.lexbuf -> string
+)
+ident(
+  ext_ref Lexing.lexeme
+)
+"nanoLex.mll" 32 45473 45546 "nanoLex.mll" 32 45473 45552
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "nanoLex.ml" 641 43239 43265 "nanoLex.ml" 641 43239 43271
+)
+"nanoLex.mll" 32 45473 45531 "nanoLex.mll" 32 45473 45553
+call(
+  stack
+)
+type(
+  string
+)
+"nanoLex.mll" 32 45473 45553 "nanoLex.mll" 32 45473 45554
+type(
+  string -> string -> string
+)
+ident(
+  ext_ref Pervasives.( ^ )
+)
+"nanoLex.mll" 32 45473 45554 "nanoLex.mll" 32 45473 45557
+type(
+  string
+)
+"nanoLex.mll" 32 45473 45531 "nanoLex.mll" 32 45473 45557
+call(
+  stack
+)
+type(
+  string
+)
+"nanoLex.mll" 32 45473 45508 "nanoLex.mll" 32 45473 45558
+call(
+  stack
+)
+type(
+  string
+)
+"nanoLex.mll" 32 45473 45497 "nanoLex.mll" 32 45473 45559
+type(
+  exn
+)
+"nanoLex.mll" 32 45473 45489 "nanoLex.mll" 32 45473 45561
+type(
+  NanoParse.token
+)
+"nanoLex.ml" 778 45582 45586 "nanoLex.ml" 778 45582 45603
+type(
+  int
+)
+ident(
+  def __ocaml_lex_state "nanoLex.ml" 778 45582 45607 "nanoLex.ml" 779 45642 45694
+)
+"nanoLex.ml" 778 45582 45607 "nanoLex.ml" 778 45582 45613
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "nanoLex.ml" 641 43239 43265 "nanoLex.ml" 641 43239 43271
+)
+"nanoLex.ml" 778 45582 45607 "nanoLex.ml" 778 45582 45632
+type(
+  Lexing.lexbuf -> unit
+)
+"nanoLex.ml" 778 45582 45633 "nanoLex.ml" 778 45582 45639
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "nanoLex.ml" 641 43239 43265 "nanoLex.ml" 641 43239 43271
+)
+"nanoLex.ml" 778 45582 45607 "nanoLex.ml" 778 45582 45639
+call(
+  stack
+)
+type(
+  unit
+)
+"nanoLex.ml" 779 45642 45648 "nanoLex.ml" 779 45642 45669
+type(
+  Lexing.lexbuf -> int -> NanoParse.token
+)
+ident(
+  int_ref __ocaml_lex_token_rec "nanoLex.ml" 641 43239 43243 "nanoLex.ml" 641 43239 43264
+)
+"nanoLex.ml" 779 45642 45670 "nanoLex.ml" 779 45642 45676
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "nanoLex.ml" 641 43239 43265 "nanoLex.ml" 641 43239 43271
+)
+"nanoLex.ml" 779 45642 45677 "nanoLex.ml" 779 45642 45694
+type(
+  int
+)
+ident(
+  int_ref __ocaml_lex_state "nanoLex.ml" 778 45582 45586 "nanoLex.ml" 778 45582 45603
+)
+"nanoLex.ml" 779 45642 45648 "nanoLex.ml" 779 45642 45694
+call(
+  tail
+)
+type(
+  NanoParse.token
+)
+"nanoLex.ml" 778 45582 45607 "nanoLex.ml" 779 45642 45694
+type(
+  NanoParse.token
+)
+"nanoLex.ml" 642 43292 43294 "nanoLex.ml" 779 45642 45694
 type(
   NanoParse.token
 )
