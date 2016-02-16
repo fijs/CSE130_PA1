@@ -22,6 +22,8 @@ type token =
   | NE
   | AND
   | OR
+  | LPAREN
+  | RPAREN
 
 val exp :
   (Lexing.lexbuf  -> token) -> Lexing.lexbuf -> Nano.expr

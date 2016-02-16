@@ -25,7 +25,9 @@ open Nano
 %token			LE 
 %token			NE 
 %token			AND 
-%token			OR 
+%token			OR
+%token			LPAREN
+%token			RPAREN 
 
 %start exp 
 %type <Nano.expr> exp
@@ -38,7 +40,7 @@ exp: 	LET Id EQ exp IN exp 		{ Let($2,$4,$6) 	}
 	|	IF exp THEN exp ELSE exp 	{ If($2,$4,$6) 		}
 	|	binExp						{ $1 }
 
-binExp:  binExp PLUS binExp 	{ Bin($1,Plus,$3) }
+binExp: binExp PLUS binExp 		{ Bin($1,Plus,$3) }
 	| 	binExp MINUS binExp 	{ Bin($1,Minus,$3) }
 	| 	binExp MUL binExp 		{ Bin($1,Mul,$3) }
 	| 	binExp DIV binExp 		{ Bin($1,Div,$3) }
@@ -48,9 +50,13 @@ binExp:  binExp PLUS binExp 	{ Bin($1,Plus,$3) }
 	| 	binExp AND binExp 		{ Bin($1,And,$3) }
 	| 	binExp OR binExp 		{ Bin($1,Or,$3) }
 	| 	binExp EQ	binExp		{ Bin($1,Eq,$3) }
-	| 	atom   					{ $1 }
+	| 	app 					{ $1 }
+
+app:	app app 	{ App($1,$2) }
+	| 	atom   		{ $1 }
 
 atom:	Num    { Const($1) }
 	|	TRUE   { True  }	
 	|	FALSE  { False }
 	|   Id     { Var($1)   }
+	| 	LPAREN exp RPAREN { $2 }
