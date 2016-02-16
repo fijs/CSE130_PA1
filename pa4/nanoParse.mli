@@ -24,6 +24,10 @@ type token =
   | OR
   | LPAREN
   | RPAREN
+  | LBRAC
+  | RBRAC
+  | SEMI
+  | COLONCOLON
 
 val exp :
   (Lexing.lexbuf  -> token) -> Lexing.lexbuf -> Nano.expr

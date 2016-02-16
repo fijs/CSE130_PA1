@@ -26,7 +26,11 @@ rule token = parse
   | "&&"		{ AND }
   |	"||"		{ OR }
   | "("			{ LPAREN }
-  | ")"			{ RPAREN } 
+  | ")"			{ RPAREN }
+  | "["			{ LBRAC }
+  | "]"			{ RBRAC } 
+  | ";"			{ SEMI }
+  |	"::"		{ COLONCOLON }
   | ['0'-'9']+ as int1 { Num(int_of_string int1) }
   | ['A'-'Z' 'a'-'z' '_']['A'-'Z' 'a'-'z' '0'-'9' '_']* as str { Id(str) }
   | [' ' '\t' '\n' '\r']    { token lexbuf }
