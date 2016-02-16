@@ -38,25 +38,34 @@ exp: 	LET Id EQ exp IN exp 		{ Let($2,$4,$6) 	}
 	|	LET REC Id EQ exp IN exp 	{ Letrec($3,$5,$7)  }
 	|   FUN Id ARROW exp 			{ Fun($2,$4) 		}
 	|	IF exp THEN exp ELSE exp 	{ If($2,$4,$6) 		}
-	|	binExp						{ $1 }
+	|	expOR						{ $1 				}
 
-binExp: binExp PLUS binExp 		{ Bin($1,Plus,$3) }
-	| 	binExp MINUS binExp 	{ Bin($1,Minus,$3) }
-	| 	binExp MUL binExp 		{ Bin($1,Mul,$3) }
-	| 	binExp DIV binExp 		{ Bin($1,Div,$3) }
-	| 	binExp LT binExp 		{ Bin($1,Lt,$3) }
-	| 	binExp LE binExp 		{ Bin($1,Le,$3) }
-	| 	binExp NE binExp 		{ Bin($1,Ne,$3) }
-	| 	binExp AND binExp 		{ Bin($1,And,$3) }
-	| 	binExp OR binExp 		{ Bin($1,Or,$3) }
-	| 	binExp EQ	binExp		{ Bin($1,Eq,$3) }
-	| 	app 					{ $1 }
+expOR: 
+	| 	expOR OR expAD 		{ Bin($1,Or,$3) }
+	| 	expAD 				{ $1 			}
 
-app:	app app 	{ App($1,$2) }
-	| 	atom   		{ $1 }
+expAD:  expAD AND expCP 	{ Bin($1,And,$3) }
+	|	expCP				{ $1 			 }
 
-atom:	Num    { Const($1) }
-	|	TRUE   { True  }	
-	|	FALSE  { False }
-	|   Id     { Var($1)   }
-	| 	LPAREN exp RPAREN { $2 }
+expCP:  expCP  EQ expPM		{ Bin($1,Eq,$3) }
+	| 	expCP  LT expPM 	{ Bin($1,Lt,$3) }
+	| 	expCP  LE expPM 	{ Bin($1,Le,$3) }
+	| 	expCP  NE expPM 	{ Bin($1,Ne,$3) }
+	|   expPM				{ $1 			}
+
+expPM: expPM PLUS  expMD 	{ Bin($1,Plus,$3)  }
+	|  expPM MINUS expMD 	{ Bin($1,Minus,$3) }
+	|  expMD				{ $1 			   }
+
+expMD: expMD  MUL funAP 	{ Bin($1,Mul,$3) }
+	|  expMD  DIV funAP 	{ Bin($1,Div,$3) }
+	|  funAP				{ $1 			 }
+
+funAP: funAP atom 			{ App($1,$2) }
+	|  atom   				{ $1 		 }
+
+atom:	Num    			 	{ Const($1) }
+	|	TRUE   			 	{ True  	}	
+	|	FALSE  			 	{ False 	}
+	|   Id     				{ Var($1)   }
+	| 	LPAREN exp RPAREN 	{ $2 		}
