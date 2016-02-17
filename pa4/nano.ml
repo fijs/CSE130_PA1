@@ -105,8 +105,71 @@ let listAssoc (k,l) =
 
 (*********************** Your code starts here ****************************)
 
-let lookup (x,evn) = failwith "to be written"
+let lookup (x,evn) = 
+  match listAssoc (x,evn) with
+  | Some value -> value
+  | None       -> failwith ("variable not bound: "^x)
 
-let rec eval (evn,e) = failwith "to be written"
+let rec eval (evn,e) =
+  match e with
+  | Const i           -> Int i
+  | Var v             -> lookup(v,evn)
+  | Bin(e1,binop,e2)  -> (match binop with
+                         | Plus  -> (match eval(evn, e1) with
+                                    | Int x -> (match eval(evn, e2) with
+                                               | Int y -> Int (x+y)
+                                               | _     -> failwith ("value not correct type"))
+                                    | _     -> failwith ("value not correct type"))
+                         | Minus -> (match eval(evn, e1) with
+                                    | Int x -> match eval(evn, e2) with
+                                               | Int y -> Int (x-y))
+                         | Mul   -> (match eval(evn, e1) with
+                                    | Int x -> match eval(evn, e2) with
+                                               | Int y -> Int (x*y))
+                         | Div   -> (match eval(evn, e1) with
+                                    | Int x -> match eval(evn, e2) with
+                                               | Int y -> Int (x/y))
+                         | Eq    -> (match eval(evn, e1) with
+                                    | Bool x -> (match eval(evn, e2) with
+                                                | Bool y -> Bool (x=y)
+                                                | _     -> failwith ("value not correct type"))
+                                    | Int x -> (match eval(evn, e2) with
+                                                | Int y -> Bool (x=y)
+                                                | _     -> failwith ("value not correct type"))
+                                    | _     -> failwith ("value not correct type"))
+                         | Ne    -> (match eval(evn, e1) with
+                                    | Bool x -> (match eval(evn, e2) with
+                                                | Bool y -> Bool (x != y)
+                                                | _     -> failwith ("value not correct type"))
+                                    | Int x -> (match eval(evn, e2) with
+                                                | Int y -> Bool (x != y)
+                                                | _     -> failwith ("value not correct type"))
+                                    | _     -> failwith ("value not correct type"))
+                         | Lt   -> (match eval(evn, e1) with
+                                    | Int x -> (match eval(evn, e2) with
+                                               | Int y -> Bool (x < y)
+                                               | _     -> failwith ("value not correct type"))
+                                    | _     -> failwith ("value not correct type"))
+                         | Le   -> (match eval(evn, e1) with
+                                    | Int x -> (match eval(evn, e2) with
+                                               | Int y -> Bool (x <= y)
+                                               | _     -> failwith ("value not correct type"))
+                                    | _     -> failwith ("value not correct type"))
+                         | And    -> (match eval(evn, e1) with
+                                     | Bool x -> (match eval(evn, e2) with
+                                                 | Bool y -> Bool (x && y)
+                                                 | _      -> failwith ("value not correct type"))
+                                     | _      -> failwith ("value not correct type"))
+                         | Or    -> (match eval(evn, e1) with
+                                     | Bool x -> (match eval(evn, e2) with
+                                                 | Bool y -> Bool (x || y)
+                                                 | _      -> failwith ("value not correct type"))
+                                     | _      -> failwith ("value not correct type"))
+                         | _      -> failwith ("Invalid operation"))
+
+  | If (e1,e2,e3)     -> (match eval(evn, e1) with
+                          | Bool x when x = true  -> eval(evn, e2)
+                          | Bool x when x = false -> eval(evn, e3)
+                          | _      -> failwith ("value not correct type for If"))
 
 (**********************     Testing Code  ******************************)
