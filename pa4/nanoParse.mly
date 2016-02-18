@@ -1,6 +1,14 @@
 %{
-(* See this for a tutorial on ocamlyacc 
- * http://plus.kaist.ac.kr/~shoh/ocaml/ocamllex-ocamlyacc/ocamlyacc-tutorial/ *)
+(* Fernando I Jaime, A11643783
+ * I will make my comments here because they don't seem to work below.
+ * I added every token required in the write-up and some of the extra 
+ * credit ones: (,),; and ::
+ * After adding the tokens, I added grammar rules that use the tokens
+ * and pass the desired values to the type constructors from nano.ml
+ * The grammar rules are written from lowest precedence to highest.
+ * Associativity is represented by writing the desired next 
+ * grammar rule to the right or left of the given token.
+ *)
 open Nano 
 %}
 

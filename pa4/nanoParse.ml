@@ -32,10 +32,18 @@ type token =
 open Parsing;;
 let _ = parse_error;;
 # 2 "nanoParse.mly"
-(* See this for a tutorial on ocamlyacc 
- * http://plus.kaist.ac.kr/~shoh/ocaml/ocamllex-ocamlyacc/ocamlyacc-tutorial/ *)
+(* Fernando I Jaime, A11643783
+ * I will make my comments here because they don't seem to work below.
+ * I added every token required in the write-up and some of the extra 
+ * credit ones: (,),; and ::
+ * After adding the tokens, I added grammar rules that use the tokens
+ * and pass the desired values to the type constructors from nano.ml
+ * The grammar rules are written from lowest precedence to highest.
+ * Associativity is represented by writing the desired next 
+ * grammar rule to the right or left of the given token.
+ *)
 open Nano 
-# 39 "nanoParse.ml"
+# 47 "nanoParse.ml"
 let yytransl_const = [|
   259 (* TRUE *);
   260 (* FALSE *);
@@ -287,249 +295,249 @@ let yyact = [|
     let _4 = (Parsing.peek_val __caml_parser_env 2 : Nano.expr) in
     let _6 = (Parsing.peek_val __caml_parser_env 0 : Nano.expr) in
     Obj.repr(
-# 41 "nanoParse.mly"
+# 49 "nanoParse.mly"
                              ( Let(_2,_4,_6) 	)
-# 293 "nanoParse.ml"
+# 301 "nanoParse.ml"
                : Nano.expr))
 ; (fun __caml_parser_env ->
     let _3 = (Parsing.peek_val __caml_parser_env 4 : string) in
     let _5 = (Parsing.peek_val __caml_parser_env 2 : Nano.expr) in
     let _7 = (Parsing.peek_val __caml_parser_env 0 : Nano.expr) in
     Obj.repr(
-# 42 "nanoParse.mly"
+# 50 "nanoParse.mly"
                              ( Letrec(_3,_5,_7)  )
-# 302 "nanoParse.ml"
+# 310 "nanoParse.ml"
                : Nano.expr))
 ; (fun __caml_parser_env ->
     let _2 = (Parsing.peek_val __caml_parser_env 2 : string) in
     let _4 = (Parsing.peek_val __caml_parser_env 0 : Nano.expr) in
     Obj.repr(
-# 43 "nanoParse.mly"
+# 51 "nanoParse.mly"
                          ( Fun(_2,_4) 		)
-# 310 "nanoParse.ml"
+# 318 "nanoParse.ml"
                : Nano.expr))
 ; (fun __caml_parser_env ->
     let _2 = (Parsing.peek_val __caml_parser_env 4 : Nano.expr) in
     let _4 = (Parsing.peek_val __caml_parser_env 2 : Nano.expr) in
     let _6 = (Parsing.peek_val __caml_parser_env 0 : Nano.expr) in
     Obj.repr(
-# 44 "nanoParse.mly"
+# 52 "nanoParse.mly"
                              ( If(_2,_4,_6) 		)
-# 319 "nanoParse.ml"
+# 327 "nanoParse.ml"
                : Nano.expr))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 0 : 'expOR) in
     Obj.repr(
-# 45 "nanoParse.mly"
+# 53 "nanoParse.mly"
               ( _1 				)
-# 326 "nanoParse.ml"
+# 334 "nanoParse.ml"
                : Nano.expr))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 2 : 'expOR) in
     let _3 = (Parsing.peek_val __caml_parser_env 0 : 'expAD) in
     Obj.repr(
-# 48 "nanoParse.mly"
+# 56 "nanoParse.mly"
                      ( Bin(_1,Or,_3) )
-# 334 "nanoParse.ml"
+# 342 "nanoParse.ml"
                : 'expOR))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 0 : 'expAD) in
     Obj.repr(
-# 49 "nanoParse.mly"
+# 57 "nanoParse.mly"
               ( _1 			)
-# 341 "nanoParse.ml"
+# 349 "nanoParse.ml"
                : 'expOR))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 2 : 'expAD) in
     let _3 = (Parsing.peek_val __caml_parser_env 0 : 'expCP) in
     Obj.repr(
-# 51 "nanoParse.mly"
+# 59 "nanoParse.mly"
                          ( Bin(_1,And,_3) )
-# 349 "nanoParse.ml"
+# 357 "nanoParse.ml"
                : 'expAD))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 0 : 'expCP) in
     Obj.repr(
-# 52 "nanoParse.mly"
+# 60 "nanoParse.mly"
             ( _1 			 )
-# 356 "nanoParse.ml"
+# 364 "nanoParse.ml"
                : 'expAD))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 2 : 'expCP) in
     let _3 = (Parsing.peek_val __caml_parser_env 0 : 'eCONS) in
     Obj.repr(
-# 54 "nanoParse.mly"
+# 62 "nanoParse.mly"
                          ( Bin(_1,Eq,_3) )
-# 364 "nanoParse.ml"
-               : 'expCP))
-; (fun __caml_parser_env ->
-    let _1 = (Parsing.peek_val __caml_parser_env 2 : 'expCP) in
-    let _3 = (Parsing.peek_val __caml_parser_env 0 : 'eCONS) in
-    Obj.repr(
-# 55 "nanoParse.mly"
-                     ( Bin(_1,Lt,_3) )
 # 372 "nanoParse.ml"
                : 'expCP))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 2 : 'expCP) in
     let _3 = (Parsing.peek_val __caml_parser_env 0 : 'eCONS) in
     Obj.repr(
-# 56 "nanoParse.mly"
-                     ( Bin(_1,Le,_3) )
+# 63 "nanoParse.mly"
+                     ( Bin(_1,Lt,_3) )
 # 380 "nanoParse.ml"
                : 'expCP))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 2 : 'expCP) in
     let _3 = (Parsing.peek_val __caml_parser_env 0 : 'eCONS) in
     Obj.repr(
-# 57 "nanoParse.mly"
-                     ( Bin(_1,Ne,_3) )
+# 64 "nanoParse.mly"
+                     ( Bin(_1,Le,_3) )
 # 388 "nanoParse.ml"
+               : 'expCP))
+; (fun __caml_parser_env ->
+    let _1 = (Parsing.peek_val __caml_parser_env 2 : 'expCP) in
+    let _3 = (Parsing.peek_val __caml_parser_env 0 : 'eCONS) in
+    Obj.repr(
+# 65 "nanoParse.mly"
+                     ( Bin(_1,Ne,_3) )
+# 396 "nanoParse.ml"
                : 'expCP))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 0 : 'eCONS) in
     Obj.repr(
-# 58 "nanoParse.mly"
+# 66 "nanoParse.mly"
               ( _1 			)
-# 395 "nanoParse.ml"
+# 403 "nanoParse.ml"
                : 'expCP))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 2 : 'expPM) in
     let _3 = (Parsing.peek_val __caml_parser_env 0 : 'eCONS) in
     Obj.repr(
-# 60 "nanoParse.mly"
+# 68 "nanoParse.mly"
                                ( Bin(_1,Cons,_3) )
-# 403 "nanoParse.ml"
+# 411 "nanoParse.ml"
                : 'eCONS))
 ; (fun __caml_parser_env ->
     let _2 = (Parsing.peek_val __caml_parser_env 2 : 'expPM) in
     let _4 = (Parsing.peek_val __caml_parser_env 0 : 'eCONS) in
     Obj.repr(
-# 61 "nanoParse.mly"
+# 69 "nanoParse.mly"
                           ( Bin(_2,Cons,_4) )
-# 411 "nanoParse.ml"
+# 419 "nanoParse.ml"
                : 'eCONS))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 2 : 'expPM) in
     let _3 = (Parsing.peek_val __caml_parser_env 0 : 'eCONS) in
     Obj.repr(
-# 62 "nanoParse.mly"
+# 70 "nanoParse.mly"
                          ( Bin(_1,Cons,_3) )
-# 419 "nanoParse.ml"
+# 427 "nanoParse.ml"
                : 'eCONS))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 1 : 'expPM) in
     Obj.repr(
-# 63 "nanoParse.mly"
+# 71 "nanoParse.mly"
                     ( Bin(_1,Cons,NilExpr) )
-# 426 "nanoParse.ml"
+# 434 "nanoParse.ml"
                : 'eCONS))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 0 : 'expPM) in
     Obj.repr(
-# 64 "nanoParse.mly"
+# 72 "nanoParse.mly"
                ( _1 )
-# 433 "nanoParse.ml"
+# 441 "nanoParse.ml"
                : 'eCONS))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 2 : 'expPM) in
     let _3 = (Parsing.peek_val __caml_parser_env 0 : 'expMD) in
     Obj.repr(
-# 66 "nanoParse.mly"
+# 74 "nanoParse.mly"
                           ( Bin(_1,Plus,_3)  )
-# 441 "nanoParse.ml"
+# 449 "nanoParse.ml"
                : 'expPM))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 2 : 'expPM) in
     let _3 = (Parsing.peek_val __caml_parser_env 0 : 'expMD) in
     Obj.repr(
-# 67 "nanoParse.mly"
+# 75 "nanoParse.mly"
                        ( Bin(_1,Minus,_3) )
-# 449 "nanoParse.ml"
+# 457 "nanoParse.ml"
                : 'expPM))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 0 : 'expMD) in
     Obj.repr(
-# 68 "nanoParse.mly"
+# 76 "nanoParse.mly"
              ( _1 			   )
-# 456 "nanoParse.ml"
+# 464 "nanoParse.ml"
                : 'expPM))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 2 : 'expMD) in
     let _3 = (Parsing.peek_val __caml_parser_env 0 : 'funAP) in
     Obj.repr(
-# 70 "nanoParse.mly"
+# 78 "nanoParse.mly"
                          ( Bin(_1,Mul,_3) )
-# 464 "nanoParse.ml"
+# 472 "nanoParse.ml"
                : 'expMD))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 2 : 'expMD) in
     let _3 = (Parsing.peek_val __caml_parser_env 0 : 'funAP) in
     Obj.repr(
-# 71 "nanoParse.mly"
+# 79 "nanoParse.mly"
                       ( Bin(_1,Div,_3) )
-# 472 "nanoParse.ml"
+# 480 "nanoParse.ml"
                : 'expMD))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 0 : 'funAP) in
     Obj.repr(
-# 72 "nanoParse.mly"
+# 80 "nanoParse.mly"
              ( _1 			 )
-# 479 "nanoParse.ml"
+# 487 "nanoParse.ml"
                : 'expMD))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 1 : 'funAP) in
     let _2 = (Parsing.peek_val __caml_parser_env 0 : 'atom) in
     Obj.repr(
-# 74 "nanoParse.mly"
+# 82 "nanoParse.mly"
                      ( App(_1,_2) )
-# 487 "nanoParse.ml"
+# 495 "nanoParse.ml"
                : 'funAP))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 0 : 'atom) in
     Obj.repr(
-# 75 "nanoParse.mly"
+# 83 "nanoParse.mly"
                ( _1 		 )
-# 494 "nanoParse.ml"
+# 502 "nanoParse.ml"
                : 'funAP))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 0 : int) in
     Obj.repr(
-# 77 "nanoParse.mly"
+# 85 "nanoParse.mly"
                   ( Const(_1) )
-# 501 "nanoParse.ml"
+# 509 "nanoParse.ml"
                : 'atom))
 ; (fun __caml_parser_env ->
     Obj.repr(
-# 78 "nanoParse.mly"
+# 86 "nanoParse.mly"
                ( True  	)
-# 507 "nanoParse.ml"
+# 515 "nanoParse.ml"
                : 'atom))
 ; (fun __caml_parser_env ->
     Obj.repr(
-# 79 "nanoParse.mly"
+# 87 "nanoParse.mly"
                ( False 	)
-# 513 "nanoParse.ml"
+# 521 "nanoParse.ml"
                : 'atom))
 ; (fun __caml_parser_env ->
     let _1 = (Parsing.peek_val __caml_parser_env 0 : string) in
     Obj.repr(
-# 80 "nanoParse.mly"
+# 88 "nanoParse.mly"
                 ( Var(_1)   )
-# 520 "nanoParse.ml"
+# 528 "nanoParse.ml"
                : 'atom))
 ; (fun __caml_parser_env ->
     let _2 = (Parsing.peek_val __caml_parser_env 1 : Nano.expr) in
     Obj.repr(
-# 81 "nanoParse.mly"
+# 89 "nanoParse.mly"
                        ( _2 		)
-# 527 "nanoParse.ml"
+# 535 "nanoParse.ml"
                : 'atom))
 ; (fun __caml_parser_env ->
     Obj.repr(
-# 82 "nanoParse.mly"
+# 90 "nanoParse.mly"
                  ( NilExpr 	)
-# 533 "nanoParse.ml"
+# 541 "nanoParse.ml"
                : 'atom))
 (* Entry exp *)
 ; (fun __caml_parser_env -> raise (Parsing.YYexit (Parsing.peek_val __caml_parser_env 0)))

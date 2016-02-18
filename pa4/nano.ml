@@ -105,70 +105,87 @@ let listAssoc (k,l) =
 
 (*********************** Your code starts here ****************************)
 
+(* lookup: string * env -> value
+   Uses listAssoc to find the most recent binding of a variable. If it finds some
+   value, it returns it. Otherwise, it returns an error.
+ *)
 let lookup (x,evn) = 
   match listAssoc (x,evn) with
   | Some value -> value
-  | None       -> failwith ("variable not bound: "^x)
+  | None       -> raise (MLFailure ("variable not bound: "^x))
 
+(* eval : env * expr -> value
+   When called with the pair (evn,e) evaluates an ML-nano expression e of the above type, 
+   in the environment evn , and raises an exception MLFailure ("variable not bound: x") 
+   if the expression contains an unbound variable. It was hard to implement. So long.
+ *)
 let rec eval (evn,e) =
   match e with
   | Const i           -> Int i
   | Var v             -> lookup(v,evn)
   | Bin(e1,binop,e2)  -> (match binop with
                          | Plus  -> (match eval(evn, e1) with
-                                    | Int x -> match eval(evn, e2) with
-                                               | Int y -> Int (x+y))
+                                    | Int x -> (match eval(evn, e2) with
+                                               | Int y -> Int (x+y)
+                                               | _     -> raise (MLFailure "values must both be Ints for Plus"))
+                                    | _     -> raise (MLFailure "values must both be Ints for Plus"))
                          | Minus -> (match eval(evn, e1) with
-                                    | Int x -> match eval(evn, e2) with
-                                               | Int y -> Int (x-y))
+                                    | Int x -> (match eval(evn, e2) with
+                                               | Int y -> Int (x-y)
+                                               | _     -> raise (MLFailure "values must both be Ints for Minus"))
+                                    | _     -> raise (MLFailure "values must both be Ints for Minus"))
                          | Mul   -> (match eval(evn, e1) with
-                                    | Int x -> match eval(evn, e2) with
-                                               | Int y -> Int (x*y))
+                                    | Int x -> (match eval(evn, e2) with
+                                               | Int y -> Int (x*y)
+                                               | _     -> raise (MLFailure "values must both be Ints for Mul"))
+                                    | _     -> raise (MLFailure "values must both be Ints for Mul"))
                          | Div   -> (match eval(evn, e1) with
-                                    | Int x -> match eval(evn, e2) with
-                                               | Int y -> Int (x/y))
+                                    | Int x -> (match eval(evn, e2) with
+                                               | Int y -> Int (x/y)
+                                               | _     -> raise (MLFailure "values must both be Ints for Div"))
+                                    | _     -> raise (MLFailure "values must both be Ints for Div"))
                          | Eq    -> (match eval(evn, e1) with
                                     | Bool x -> (match eval(evn, e2) with
                                                 | Bool y -> Bool (x=y)
-                                                | _     -> failwith ("You must compare two bools|integers"))
+                                                | _     -> raise (MLFailure "You must compare two bools|integers"))
                                     | Int x -> (match eval(evn, e2) with
                                                 | Int y -> Bool (x=y)
-                                                | _     -> failwith ("You must compare two bools|integers"))
-                                    | _     -> failwith ("value not correct type for Eq"))
+                                                | _     -> raise (MLFailure "You must compare two bools|integers"))
+                                    | _     -> raise (MLFailure "value not correct type for Eq"))
                          | Ne    -> (match eval(evn, e1) with
                                     | Bool x -> (match eval(evn, e2) with
                                                 | Bool y -> Bool (x != y)
-                                                | _     -> failwith ("You must compare two bools|integers"))
+                                                | _     -> raise (MLFailure "You must compare two bools|integers"))
                                     | Int x -> (match eval(evn, e2) with
                                                 | Int y -> Bool (x != y)
-                                                | _     -> failwith ("You must compare two bools|integers"))
-                                    | _     -> failwith ("value not correct type for Ne"))
+                                                | _     -> raise (MLFailure "You must compare two bools|integers"))
+                                    | _     -> raise (MLFailure "value not correct type for Ne"))
                          | Lt   -> (match eval(evn, e1) with
                                     | Int x -> (match eval(evn, e2) with
                                                | Int y -> Bool (x < y)
-                                               | _     -> failwith ("values must both be Ints for Lt"))
-                                    | _     -> failwith ("values must both be Ints for Lt"))
+                                               | _     -> raise (MLFailure "values must both be Ints for Lt"))
+                                    | _     -> raise (MLFailure "values must both be Ints for Lt"))
                          | Le   -> (match eval(evn, e1) with
                                     | Int x -> (match eval(evn, e2) with
                                                | Int y -> Bool (x <= y)
-                                               | _     -> failwith ("values must both be Ints for Le"))
-                                    | _     -> failwith ("values must both be Ints for Le"))
+                                               | _     -> raise (MLFailure "values must both be Ints for Le"))
+                                    | _     -> raise (MLFailure "values must both be Ints for Le"))
                          | And    -> (match eval(evn, e1) with
                                      | Bool x -> (match eval(evn, e2) with
                                                  | Bool y -> Bool (x && y)
-                                                 | _      -> failwith ("values must both be Bools for And"))
-                                     | _      -> failwith ("values must both be Bools for And"))
+                                                 | _      -> raise (MLFailure "values must both be Bools for And"))
+                                     | _      -> raise (MLFailure "values must both be Bools for And"))
                          | Or    -> (match eval(evn, e1) with
                                      | Bool x -> (match eval(evn, e2) with
                                                  | Bool y -> Bool (x || y)
-                                                 | _      -> failwith ("values must both be Bools for Or"))
-                                     | _      -> failwith ("values must both be Bools for Or"))
-                         | _      -> failwith ("Invalid operation"))
+                                                 | _      -> raise (MLFailure "values must both be Bools for Or"))
+                                     | _      -> raise (MLFailure "values must both be Bools for Or"))
+                         | _      -> raise (MLFailure "Invalid operation"))
 
   | If(e1,e2,e3)      -> (match eval(evn, e1) with
                           | Bool x when x = true  -> eval(evn, e2)
                           | Bool x when x = false -> eval(evn, e3)
-                          | _      -> failwith ("value not correct type for If"))
+                          | _      -> raise (MLFailure "value not correct type for If"))
 
   | Let(x,e1,e2)      -> (let newEvn = (x, eval(evn,e1))::evn in
                             let x = eval(newEvn,e1) in eval(newEvn,e2))
@@ -182,7 +199,8 @@ let rec eval (evn,e) =
                                             of evn and a new tuple with the name of the recursive function,
                                             and the Closure value of the function with an updated name.
                                          *)
-                                           eval( (x,Closure(cEvn,Some x,fparam,bodyExp))::evn, e2))
+                                           eval( (x,Closure(cEvn,Some x,fparam,bodyExp))::evn, e2)
+                                         | _ -> raise (MLFailure "Letrec expected a function and got something else"))
                          (* If not a function, behave like let *)
                          | _        -> (let newEvn = (x, eval(evn,e1))::evn in
                                           let x = eval(newEvn,e1) in eval(newEvn,e2))
@@ -194,17 +212,24 @@ let rec eval (evn,e) =
                           (* Evaluate function to get back a closure value *)
   | App (fn,exp)      -> (match eval(evn, fn) with
                           (* Extract the closure values *)
-                          | Closure(cEvn,fname,fparam,bodyExp) -> match fname with
+                          | Closure(cEvn,fname,fparam,bodyExp) -> 
                           (* Add the Closure generated by the recursive function to the environment 
                              used to evaluate the exp in App. Pair the closure with the key generated
                              by the Letrec statement. Add the updated env to the closure environment.
                              Use eval with this updated cEvn to evaluate the body-expression.
                            *)
-                          | Some x -> eval( 
-                            (x, Closure(cEvn,fname,fparam,bodyExp))::[(fparam,eval(evn,exp))]@cEvn, bodyExp)
-                          (* Add the formal parameter and the value of the exp in App to the closure 
-                             environment. Then, use the updated closure evn to evaluate the body-expression.
-                           *)
-                          | None   -> eval( (fparam,eval(evn,exp))::cEvn, bodyExp))
+                                (match fname with
+                                | Some x -> eval( 
+                                  (x, Closure(cEvn,fname,fparam,bodyExp))::[(fparam,eval(evn,exp))]@cEvn, bodyExp)
+                                (* Add the formal parameter and the value of the exp in App to the closure 
+                                   environment. Then, use the updated closure evn to evaluate the body-expression.
+                                 *)
+                                | None   -> eval( (fparam,eval(evn,exp))::cEvn, bodyExp)
+                                )
+                          | _ -> raise (MLFailure "App expected a function and got something else")
+                         )
+
+(* Just in case you decide to test eval against something not covered in the write-up *)
+| _      -> raise (MLFailure "Invalid expression type ")
 
 (**********************     Testing Code  ******************************)

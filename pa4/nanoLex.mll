@@ -3,7 +3,7 @@
   open NanoParse   (* nanoParse.ml from nanoParse.mly *)
 }
 
-(* comment more *)
+(* Here we bind the symbols/strings to parser tokens *)
 rule token = parse
   | "true"		{ TRUE }
   | "false"		{ FALSE }
