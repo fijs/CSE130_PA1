@@ -72,14 +72,44 @@ def transform_digits(stri):
 def check_pass(plain,enc):
     """Check to see if the plaintext plain encrypts to the encrypted
        text enc"""
-    raise Failure("to be written")
+    salt = enc[:2]
+    return crypt.crypt(plain,salt) == enc
 
 def load_passwd(filename):
     """Load the password file filename and returns a list of
        dictionaries with fields "account", "password", "UID", "GID",
        "GECOS", "directory", and "shell", each mapping to the
        corresponding field of the file."""
-    raise Failure("to be written")
+    
+    #dict_template = {}.fromkeys(
+      #["account","password","UID","GID","GECOS","directory","shell"])
+    
+    f = open(filename, 'r')
+    dictionaries = []
+    
+    for line in f:
+
+      dict_template = {}.fromkeys(
+      ["account","password","UID","GID","GECOS","directory","shell"] )
+
+      line = line.strip()
+      #print line
+      ct = 0
+      values = line.split(':')
+      #print values
+    
+      for key in dict_template:
+        if key == 'UID' or key == 'GID':
+          dict_template[key] = int(values[ct])
+        else:
+          dict_template[key] = values[ct]
+        ct += 1
+    
+      #print dict_template
+      #print "\n" 
+      dictionaries.append(dict_template)
+    
+    return dictionaries
 
 def crack_pass_file(pass_filename,words_filename,out_filename):
     """Crack as many passwords in file fn_pass as possible using words
