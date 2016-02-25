@@ -1,5 +1,6 @@
 
 from misc import *
+from time import time
 import crypt
 import re
 
@@ -13,6 +14,8 @@ def load_words(filename,regexp):
     for line in f:
       if re.match(regexp,line):
         words.append(line.strip())
+
+    f.close()    
     return words
 
 def transform_reverse(stri):
@@ -109,10 +112,43 @@ def load_passwd(filename):
       #print "\n" 
       dictionaries.append(dict_template)
     
+    f.close()
     return dictionaries
+
+def load_passwd2(filename):
+
+  f = open(filename, 'r')
+  combos = []
+
+  for line in f:
+    line = line.strip()
+    values = line.split(':')
+    combos.append( (values[0],values[1]) )
+
+  f.close()
+  return combos
 
 def crack_pass_file(pass_filename,words_filename,out_filename):
     """Crack as many passwords in file fn_pass as possible using words
        in the file words"""
-    raise Failure("to be written")
+    start = time()
+    #password = open(pass_filename, 'r')
+    #words    = open(words_filename, 'r')
+    out_file = open(out_filename, 'w')
+    combos   = load_passwd2(pass_filename)
+    words    = load_words(words_filename, '.')
+    print('===== %s DONE @ %0.3fs' % ("READ", time() - start))
+
+    #check if plain password
+    for item in combos:
+      #print "Trying user: ",item[0],"..."
+      for word in words:
+        #print "Trying word: ",word,"..."
+        if check_pass(word,item[1]):
+          #print "Written combo: ",item[0],"=",item[1]
+          print('===== %s HIT @ %0.3fs' % (item[0], time() - start))
+          out_file.write(item[0]+"="+item[1]+"\n")
+
+    print('===== %s DONE @ %0.3fs' % ("PLAIN", time() - start))      
+    out_file.close()
 
