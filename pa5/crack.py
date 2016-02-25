@@ -14,17 +14,60 @@ def load_words(filename,regexp):
       if re.match(regexp,line):
         words.append(line.strip())
     return words
-    #use the result of re.match as bool condition check
-    #return [ word for word in re.findall(regexp,readStr) ]
 
-def transform_reverse(str):
-    raise Failure("to be written")
+def transform_reverse(stri):
+  return [ stri, stri[::-1] ]
 
-def transform_capitalize(str):
-    raise Failure("to be written")
+def transform_capitalize(stri):
 
-def transform_digits(str):
-    raise Failure("to be written")
+    result = []
+
+    if stri == "":
+      result.append(stri)
+    else:
+      stri = stri.lower()
+      current = stri[:1]
+      
+      if stri.isalpha():
+        for sub_stri in transform_capitalize(stri[1:]):
+          result.append(current.upper() + sub_stri)
+          result.append(current.lower() + sub_stri)
+      else:
+        for sub_stri in transform_capitalize(stri[1:]):
+          result.append(current + sub_stri)
+
+    return result
+
+def transform_digits(stri):
+
+    dict_pairs = ( (('o','O'), 0), (('i','I','l','L'), 1), (('z','Z'), 2), 
+                   (('e','E'), 3), (('g','G','q','Q'), 9), (('a','A'), 4),
+                   (('s','S'), 5), (('t','T'), 7), (('b','B'), [6,8])       )
+
+    digits = { key : value for keys, value in dict_pairs for key in keys }
+
+    result = []
+
+    if stri == "":
+      result.append(stri)
+    else:
+      current = stri[:1]
+      
+      if current.isalpha() and digits.has_key(current):
+          for sub_stri in transform_digits(stri[1:]):
+            if current == "b" or current == "B":
+              result.append(str(digits[current][0]) + sub_stri)
+              result.append(str(digits[current][1]) + sub_stri)
+              result.append(current + sub_stri)
+            else:
+              result.append(str(digits[current]) + sub_stri)
+              result.append(current + sub_stri)
+      else:
+        for sub_stri in transform_digits(stri[1:]):
+          result.append(current + sub_stri)
+
+    return result
+
 
 def check_pass(plain,enc):
     """Check to see if the plaintext plain encrypts to the encrypted
