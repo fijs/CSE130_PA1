@@ -21,6 +21,9 @@ def load_words(filename,regexp):
 def transform_reverse(stri):
   return [ stri, stri[::-1] ]
 
+def transform_reverse2(stri):
+  return stri[::-1]
+
 def transform_capitalize(stri):
 
     result = []
@@ -84,9 +87,6 @@ def load_passwd(filename):
        "GECOS", "directory", and "shell", each mapping to the
        corresponding field of the file."""
     
-    #dict_template = {}.fromkeys(
-      #["account","password","UID","GID","GECOS","directory","shell"])
-    
     f = open(filename, 'r')
     dictionaries = []
     
@@ -96,10 +96,8 @@ def load_passwd(filename):
       ["account","password","UID","GID","GECOS","directory","shell"] )
 
       line = line.strip()
-      #print line
       ct = 0
       values = line.split(':')
-      #print values
     
       for key in dict_template:
         if key == 'UID' or key == 'GID':
@@ -108,14 +106,13 @@ def load_passwd(filename):
           dict_template[key] = values[ct]
         ct += 1
     
-      #print dict_template
-      #print "\n" 
       dictionaries.append(dict_template)
     
     f.close()
     return dictionaries
 
 def load_passwd2(filename):
+  """Like load_passwd but returns a simple list with user and password"""
 
   f = open(filename, 'r')
   combos = []
@@ -128,27 +125,68 @@ def load_passwd2(filename):
   f.close()
   return combos
 
+def find_password(users,words,transformation,flag,out_file,start):
+
+  remaining_users = []
+
+  for user in users:
+    
+    pass_found = False
+
+    if flag:
+      for word in words:
+        for variant in transformation(word):
+          if check_pass(variant,user[1]):
+            print('===== %s HIT @ %0.3fs' % (user[0], time() - start))
+            out_file.write(user[0]+"="+variant+"\n")
+            out_file.flush()
+            pass_found = True
+            break
+    else:
+      for word in words:
+        if check_pass(word,user[1]):
+          print('===== %s HIT @ %0.3fs' % (user[0], time() - start))
+          out_file.write(user[0]+"="+word+"\n")
+          out_file.flush()
+          pass_found = True
+          break
+    
+    if not pass_found:
+      remaining_users.append(user)
+    
+  return remaining_users
+
 def crack_pass_file(pass_filename,words_filename,out_filename):
     """Crack as many passwords in file fn_pass as possible using words
        in the file words"""
     start = time()
-    #password = open(pass_filename, 'r')
-    #words    = open(words_filename, 'r')
     out_file = open(out_filename, 'w')
     combos   = load_passwd2(pass_filename)
-    words    = load_words(words_filename, '.')
+    words    = load_words(words_filename, r"^.{6,8}")
+
     print('===== %s DONE @ %0.3fs' % ("READ", time() - start))
 
-    #check if plain password
-    for item in combos:
-      #print "Trying user: ",item[0],"..."
-      for word in words:
-        #print "Trying word: ",word,"..."
-        if check_pass(word,item[1]):
-          #print "Written combo: ",item[0],"=",item[1]
-          print('===== %s HIT @ %0.3fs' % (item[0], time() - start))
-          out_file.write(item[0]+"="+item[1]+"\n")
+    #check plain passwords
+    remaining_users = find_password(combos,words,"Null",False,out_file,start)
+    print('===== %s DONE @ %0.3fs' % ("PLAIN", time() - start))
 
-    print('===== %s DONE @ %0.3fs' % ("PLAIN", time() - start))      
+    #cache reversed strings
+    words_r = map(transform_reverse2,words)
+
+    #check reversed passwords
+    remaining_users = find_password(remaining_users,words_r,"Null",False,out_file,start)
+    print('===== %s DONE @ %0.3fs' % ("REVERSE", time() - start))
+
+    #cache didn't work... too ham!
+    #words_c = [ wordc for elem in map(transform_capitalize,words) for wordc in elem ]
+    #words_d = map(transform_digits,words)
+
+    #check digits passwords
+    remaining_users = find_password(remaining_users,words,transform_digits,True,out_file,start)
+    print('===== %s DONE @ %0.3fs' % ("DIGITS", time() - start))
+
+    print('===== %s DONE @ %0.3fs' % ("EVERYTHING", time() - start))      
     out_file.close()
+
+    #return words_r
 
