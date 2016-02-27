@@ -21,9 +21,6 @@ def load_words(filename,regexp):
 def transform_reverse(stri):
   return [ stri, stri[::-1] ]
 
-def transform_reverse2(stri):
-  return stri[::-1]
-
 def transform_capitalize(stri):
 
     result = []
@@ -126,7 +123,13 @@ def load_passwd2(filename):
   f.close()
   return combos
 
-def find_password(users,words,transformation,flag,out_file,start):
+
+def find_password(users,words,REVERSE,DIGITS,CAPITALIZE,FLAG,out_file,start):
+  """FLAG = 0 FOR PLAIN AND REVERSE
+     FLAG = 1 FOR DIGITS (ON PLAIN AND REVERSE)
+     FLAG = 2 FOR CAPITALIZE (ON PLAIN AND REVERSE)
+     FLAG = 3 FOR CAPITALIZE + DIGITS (ON PLAIN AND REVERSE)
+  """
 
   remaining_users = []
 
@@ -134,24 +137,69 @@ def find_password(users,words,transformation,flag,out_file,start):
     
     pass_found = False
 
-    if flag:
+    #oh yeah get all them transformations
+    if FLAG == 3:
+      #for every word
       for word in words:
-        for variant in transformation(word):
-          #print "I'm running!"
-          if check_pass(variant,user[1]):
-            print('===== %s HIT @ %0.3fs' % (user[0], time() - start))
-            out_file.write(user[0]+"="+variant+"\n")
+        #plain and reverse
+        for reverse in REVERSE(word):
+          #apply capitalize
+          for caps in CAPITALIZE(reverse):
+            #and then digits
+            for variant in DIGITS(caps):
+              #then check if the transformed string matches the password
+              if check_pass(variant,user['password']):
+                print('===== %s HIT @ %0.3fs' % (user['account'], time() - start))
+                out_file.write(user['account']+"="+variant+"\n")
+                out_file.flush()
+                pass_found = True
+                break
+    
+    #or chill and get just them capitalizations
+    elif FLAG == 2:
+      #for every word
+      for word in words:
+        #plain and reverse
+        for reverse in REVERSE(word):
+          #apply capitalize
+          for variant in CAPITALIZE(reverse):
+            #then check if the transformed string matches the password
+            if check_pass(variant,user['password']):
+              print('===== %s HIT @ %0.3fs' % (user['account'], time() - start))
+              out_file.write(user['account']+"="+variant+"\n")
+              out_file.flush()
+              pass_found = True
+              break
+
+    #or be more chill and get just the digit variants
+    elif FLAG == 1:
+      #for every word
+      for word in words:
+        #plain and reverse
+        for reverse in REVERSE(word):
+          #apply capitalize
+          for variant in DIGITS(reverse):
+            #then check if the transformed string matches the password
+            if check_pass(variant,user['password']):
+              print('===== %s HIT @ %0.3fs' % (user['account'], time() - start))
+              out_file.write(user['account']+"="+variant+"\n")
+              out_file.flush()
+              pass_found = True
+              break
+
+    #or just the plains and reverse cuz they cheap and easy
+    else:
+      #for every word
+      for word in words:
+        #plain and reverse
+        for variant in REVERSE(word):
+          #check if the encrypted word matches the password
+          if check_pass(variant,user['password']):
+            print('===== %s HIT @ %0.3fs' % (user['account'], time() - start))
+            out_file.write(user['account']+"="+variant+"\n")
             out_file.flush()
             pass_found = True
             break
-    else:
-      for word in words:
-        if check_pass(word,user[1]):
-          print('===== %s HIT @ %0.3fs' % (user[0], time() - start))
-          out_file.write(user[0]+"="+word+"\n")
-          out_file.flush()
-          pass_found = True
-          break
     
     if not pass_found:
       remaining_users.append(user)
@@ -161,64 +209,37 @@ def find_password(users,words,transformation,flag,out_file,start):
 def crack_pass_file(pass_filename,words_filename,out_filename):
     """Crack as many passwords in file fn_pass as possible using words
        in the file words"""
-    
+      
     start = time()
-    print('===== %s DONE @ %0.3fs' % ("START", time() - start))
     out_file = open(out_filename, 'w')
 
-    # combos   = load_passwd(pass_filename)
-    # words    = load_words(words_filename, r"^.{6,8}$")
+    users = load_passwd(pass_filename)
+    words = load_words(words_filename, r"^.{6,8}$")
 
-    # #check plain passwords
-    # remaining_users = find_password(combos,words,"Null",False,out_file,start)
-    # print('===== %s DONE @ %0.3fs' % ("PLAIN", time() - start))
+    print('===== %s DONE @ %0.3fs' % ("READ", time() - start))
 
-    # #cache reversed strings
-    # words_r = map(transform_reverse2,words)
+    #check plain passwords and their reverses
+    remaining_users = find_password(users,words,transform_reverse,
+      transform_digits,transform_capitalize,0,out_file,start)
+    print('===== %s DONE @ %0.3fs' % ("PLAIN AND REVERSE", time() - start))
 
-    # #check reversed passwords
-    # remaining_users = find_password(remaining_users,words_r,"Null",False,out_file,start)
-    # print('===== %s DONE @ %0.3fs' % ("REVERSE", time() - start))
+    #check digits passwords
+    remaining_users = find_password(remaining_users,words,transform_reverse,
+      transform_digits,transform_capitalize,1,out_file,start)
+    print('===== %s DONE @ %0.3fs' % ("DIGITS", time() - start))
 
-    # #cache didn't work... too ham!
-    # #words_c = [ wordc for elem in map(transform_capitalize,words) for wordc in elem ]
-    # #words_d = map(transform_digits,words)
+    #check capitalized passwords
+    remaining_users = find_password(remaining_users,words,transform_reverse,
+      transform_digits,transform_capitalize,2,out_file,start)
+    print('===== %s DONE @ %0.3fs' % ("CAPITALIZE", time() - start))
 
-    # #check digits passwords
-    # remaining_users = find_password(remaining_users,words,transform_digits,True,out_file,start)
-    # print('===== %s DONE @ %0.3fs' % ("DIGITS", time() - start))
+    #check capitalize + digits passwords
+    remaining_users = find_password(remaining_users,words,transform_reverse,
+      transform_digits,transform_capitalize,3,out_file,start)
+    print('===== %s DONE @ %0.3fs' % ("CAPITALIZE + DIGITS", time() - start))
 
-    # #check capitalize passwords
-    # remaining_users = find_password(remaining_users,words,transform_capitalize,True,out_file,start)
-    # print('===== %s DONE @ %0.3fs' % ("CAPITALIZE", time() - start))
+    print('===== %s DONE @ %0.3fs' % ("EVERYTHING", time() - start))      
+    out_file.close()
 
-    # print('===== %s DONE @ %0.3fs' % ("EVERYTHING", time() - start))      
-    # out_file.close()
-
-  remaining_users = []
-
-  #user loop
-  for user in iter(load_passwd(pass_filename)):
-    
-    pass_found = False
-
-      #words in file loop
-      for word in iter(load_words(words_filename, r"^.{6,8}$")):
-
-          for item in transform_reverse(word):
-
-            if check_pass(item,user['password']):
-              print('===== %s HIT @ %0.3fs' % (user['account'], time() - start))
-              out_file.write(user['account']+"="+item+"\n")
-              out_file.flush()
-              pass_found = True
-              break
-
-    if not pass_found:
-      remaining_users.append(user)
-
-  print('===== %s DONE @ %0.3fs' % ("PLAIN, REVERSE", time() - start))
-
-  #DONE
-  out_file.close()
+    return remaining_users
 
