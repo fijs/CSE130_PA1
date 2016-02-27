@@ -27,5 +27,17 @@ class Vector(object):
 
 		return "Vector(" + str(self.data) + ")"
 
-	def _len_(self):
+	def __len__(self):
 		return len(self.data)
+
+	def __iter__(self):
+		for x in self.data: yield x
+
+	def __add__(self,other):
+		return Vector([ x+y for x,y in zip(self,other) ])
+
+	def __iadd__(self,other):
+		return Vector([ x+y for x,y in zip(self,other) ])
+
+	def __radd__(self,other):
+		return Vector([ x+y for x,y in zip(self,other) ])
