@@ -89,6 +89,7 @@ def load_passwd(filename):
     
     f = open(filename, 'r')
     dictionaries = []
+    keys = ["account","password","UID","GID","GECOS","directory","shell"]
     
     for line in f:
 
@@ -101,9 +102,9 @@ def load_passwd(filename):
     
       for key in dict_template:
         if key == 'UID' or key == 'GID':
-          dict_template[key] = int(values[ct])
+          dict_template[keys[ct]] = int(values[ct])
         else:
-          dict_template[key] = values[ct]
+          dict_template[keys[ct]] = values[ct]
         ct += 1
     
       dictionaries.append(dict_template)
@@ -136,6 +137,7 @@ def find_password(users,words,transformation,flag,out_file,start):
     if flag:
       for word in words:
         for variant in transformation(word):
+          #print "I'm running!"
           if check_pass(variant,user[1]):
             print('===== %s HIT @ %0.3fs' % (user[0], time() - start))
             out_file.write(user[0]+"="+variant+"\n")
@@ -159,34 +161,64 @@ def find_password(users,words,transformation,flag,out_file,start):
 def crack_pass_file(pass_filename,words_filename,out_filename):
     """Crack as many passwords in file fn_pass as possible using words
        in the file words"""
+    
     start = time()
+    print('===== %s DONE @ %0.3fs' % ("START", time() - start))
     out_file = open(out_filename, 'w')
-    combos   = load_passwd2(pass_filename)
-    words    = load_words(words_filename, r"^.{6,8}")
 
-    print('===== %s DONE @ %0.3fs' % ("READ", time() - start))
+    # combos   = load_passwd(pass_filename)
+    # words    = load_words(words_filename, r"^.{6,8}$")
 
-    #check plain passwords
-    remaining_users = find_password(combos,words,"Null",False,out_file,start)
-    print('===== %s DONE @ %0.3fs' % ("PLAIN", time() - start))
+    # #check plain passwords
+    # remaining_users = find_password(combos,words,"Null",False,out_file,start)
+    # print('===== %s DONE @ %0.3fs' % ("PLAIN", time() - start))
 
-    #cache reversed strings
-    words_r = map(transform_reverse2,words)
+    # #cache reversed strings
+    # words_r = map(transform_reverse2,words)
 
-    #check reversed passwords
-    remaining_users = find_password(remaining_users,words_r,"Null",False,out_file,start)
-    print('===== %s DONE @ %0.3fs' % ("REVERSE", time() - start))
+    # #check reversed passwords
+    # remaining_users = find_password(remaining_users,words_r,"Null",False,out_file,start)
+    # print('===== %s DONE @ %0.3fs' % ("REVERSE", time() - start))
 
-    #cache didn't work... too ham!
-    #words_c = [ wordc for elem in map(transform_capitalize,words) for wordc in elem ]
-    #words_d = map(transform_digits,words)
+    # #cache didn't work... too ham!
+    # #words_c = [ wordc for elem in map(transform_capitalize,words) for wordc in elem ]
+    # #words_d = map(transform_digits,words)
 
-    #check digits passwords
-    remaining_users = find_password(remaining_users,words,transform_digits,True,out_file,start)
-    print('===== %s DONE @ %0.3fs' % ("DIGITS", time() - start))
+    # #check digits passwords
+    # remaining_users = find_password(remaining_users,words,transform_digits,True,out_file,start)
+    # print('===== %s DONE @ %0.3fs' % ("DIGITS", time() - start))
 
-    print('===== %s DONE @ %0.3fs' % ("EVERYTHING", time() - start))      
-    out_file.close()
+    # #check capitalize passwords
+    # remaining_users = find_password(remaining_users,words,transform_capitalize,True,out_file,start)
+    # print('===== %s DONE @ %0.3fs' % ("CAPITALIZE", time() - start))
 
-    #return words_r
+    # print('===== %s DONE @ %0.3fs' % ("EVERYTHING", time() - start))      
+    # out_file.close()
+
+  remaining_users = []
+
+  #user loop
+  for user in iter(load_passwd(pass_filename)):
+    
+    pass_found = False
+
+      #words in file loop
+      for word in iter(load_words(words_filename, r"^.{6,8}$")):
+
+          for item in transform_reverse(word):
+
+            if check_pass(item,user['password']):
+              print('===== %s HIT @ %0.3fs' % (user['account'], time() - start))
+              out_file.write(user['account']+"="+item+"\n")
+              out_file.flush()
+              pass_found = True
+              break
+
+    if not pass_found:
+      remaining_users.append(user)
+
+  print('===== %s DONE @ %0.3fs' % ("PLAIN, REVERSE", time() - start))
+
+  #DONE
+  out_file.close()
 
