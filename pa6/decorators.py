@@ -13,15 +13,111 @@ class profiled(object):
     def reset(self):
         self.__count=0
 
+
+
 class traced(object):
+    """A decorator class to print the stack trace of a recursive function. 
+       It prints out an ASCII art tree of the function calls and return values."""
+    
+    # Global variable counter for calls to multiple functions
+    # Start at -1 since we want the first value to be zero for purposes 
+    # of printing out the correct number of | characters
+    count=-1
+
     def __init__(self,f):
-        # replace this and fill in the rest of the class
-        self.__name__="NOT_IMPLEMENTED"
+        """Initialize the decorator class to have the values count, 
+            function name and function itself. """
+        self.__f=f
+        self.__name__=f.__name__
+    
+    def __call__(self,*args,**dargs):
+        """Handle printing the stack trace up and down before and after calling
+           the recursive function. Increase and decrease count to handle printing
+           pipe ( | ) characters. Calls the recursive function itself. """
+
+        # Make string copy of args and dargs
+        s = ", "
+        args2  = s.join(map(str,args))
+        dargs2 = s.join(map(str,dargs))
+
+        # Increase count at every call to the function
+        traced.count+=1
+
+        # If args is not null
+        #if args2 != "":
+        # Print the "recurse down" stack trace
+        print traced.count*"| "+",- "+self.__name__+"("+args2+dargs2+")"
+        # Make the function call and catch return value
+        retVal = self.__f(*args,**dargs)
+        # Print the "recurse up" stack trace
+        print traced.count*"| "+"`- "+str(retVal)
+
+        # # If dargs is not null
+        # elif dargs2 != "":
+        #     # Print the "recurse down" stack trace
+        #     print traced.count*"| "+",- "+self.__name__+"("+args2+dargs2+")"
+        #     # Make the function call and catch return value
+        #     retVal = self.__f(*args,**dargs)
+        #     # Print the "recurse up" stack trace
+        #     print traced.count*"| "+"`- "+str(retVal)
+
+        # Decrease count!
+        traced.count-=1
+        # return the return value of the function
+        return retVal
+
+
 
 class memoized(object):
+
     def __init__(self,f):
-        # replace this and fill in the rest of the class
-        self.__name__="NOT_IMPLEMENTED"
+        """A decorator class to instantaneously return previously computed 
+           values with the given arguments. """
+        # A variable to the class to hold the arguments/return values combos
+        # obviously it is a dictionary.
+        self.__memoTable = {}
+        self.__f         = f
+        self.__name__    = f.__name__
+    
+    def __call__(self,*args,**dargs):
+        """Handle checking to see if the function has been called with the given
+           arguments. If the function has been called, extract values from the 
+           memory table and return them. If it hasn't been called, call the 
+           function and save the arguments+return value in the memo table. """
+
+        # To save the key args:values into a list that gets saved into memo table
+        #keyArgs = []
+        args2  = str(args)
+        dargs2 = str(dargs)
+
+        # Check that args is not Null
+        if args2 != "":
+
+            #print args
+            #print args2
+
+            # Check to see if the function has been called before with these args
+            if args2 not in self.__memoTable:
+                # If it hasn't call it and store results and args in memoTable
+                self.__memoTable[args2] = self.__f(*args,**dargs)    
+                return self.__memoTable[args2]
+            else:
+                return self.__memoTable[args2]
+
+        # Check that dargs is not Null
+        elif dargs2 != "":
+
+            if dargs2 not in self.__memoTable:
+                # If it hasn't call it and store results and args in memoTable
+                self.__memoTable[dargs2] = self.__f(*args,**dargs)
+                return self.__memoTable[dargs2]
+            else:
+                return self.__memoTable[dargs2]
+
+        else:
+
+            raise ValueError("arguments are invalid in some way")
+
 
 # run some examples.  The output from this is in decorators.out
 def run_examples():
@@ -142,5 +238,10 @@ def change_mt(l,a):
             return [l[0]]+change_mt(l,a-l[0])
         except ChangeException:
             return change_mt(l[1:],a)
+
+@traced
+def foo(a,b):
+    if a==0: return b
+    return foo(b=a-1,a=b-1)
 
 

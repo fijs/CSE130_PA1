@@ -80,18 +80,106 @@ class Vector(object):
 
 	def __getitem__(self,key):
 		""" This method implements element lookup by index in the Vector object. """
-		if key > self.__len__():
-			raise IndexError("Index out of range")
-		elif key < 0:
-			return self.data[self.__len__()-key]
-		else:
+		if isinstance(key, slice):
+			# print "len is: " + str(self.__len__())
+			# if key.start or key.stop > self.__len__():
+			# 	print "start is: " + str(key.start)
+			# 	print "stop is: " + str(key.stop)
+			# 	raise IndexError("Index out of range")
+			# else:
 			return self.data[key]
+		else:
+			if key > self.__len__():
+				raise IndexError("Index out of range")
+			elif key < 0:
+				return self.data[self.__len__()-key]
+			else:
+				return self.data[key]
 
 	def __setitem__(self,key,value):
 		""" This method implements element setting by index in the Vector object. """
-		if key > self.__len__():
-			raise IndexError("Index out of range")
-		elif key < 0:
-			self.data[self.__len__()-key] = value
+		if isinstance(key, slice):
+			test = list(self.data)
+			test[key] = value
+			if len(test) > self.__len__():
+				raise ValueError("This operation modifies the length of the Vector")
+			else:
+				self.data[key] = value
 		else:
-			self.data[key] = value
+			if key > self.__len__():
+				raise IndexError("Index out of range")
+			elif key < 0:
+				self.data[self.__len__()-key] = value
+			else:
+				self.data[key] = value
+
+	def __eq__(self,other):
+
+		if not isinstance(other, self.__class__):
+			return False
+		else:
+			equal = True
+			for x,y in zip(sorted(self,reverse=True),sorted(other,reverse=True)):
+				if x != y:
+					equal = False
+					break
+			return equal
+
+	def __ne__(self,other):
+
+		if not isinstance(other, self.__class__):
+			return True
+		else:
+			n_equal = False
+			for x,y in zip(sorted(self,reverse=True),sorted(other,reverse=True)):
+				#print "X is: ",x,"and y is: ",y,""
+				if x != y:
+					n_equal = True
+					break
+			return n_equal
+
+	def __gt__(self,other):
+		greater = True
+		for x,y in zip(sorted(self,reverse=True),sorted(other,reverse=True)):
+			if x < y:
+				greater = False
+				break
+		return greater
+
+	def __ge__(self,other):
+
+		if self.__gt__(other):
+			return True
+		else:
+			return self.__eq__(other)
+		# greater = True
+		# equal	= True
+		# for x,y in zip(sorted(self,reverse=True),sorted(other,reverse=True)):
+		# 	if x < y:
+		# 		greater = False
+		# 		break
+		# return greater	
+
+	def __lt__(self,other):
+		lesser = True
+		for x,y in zip(sorted(self,reverse=True),sorted(other,reverse=True)):
+			#print "X is: ",x,"and y is: ",y,""
+			if x > y:
+				lesser = False
+				break
+		return lesser
+
+	def __le__(self,other):
+
+		if self.__lt__(other):
+			return True
+		else:
+			return self.__eq__(other)
+
+
+
+
+
+
+
+
