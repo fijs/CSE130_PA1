@@ -1,6 +1,12 @@
 from misc import Failure
 
+"""
+This module implements the profiled, traced and memoized decorator classes,
+and also contains testing code for them.
+"""
+
 class profiled(object):
+    """An example decorator class. """
     def __init__(self,f):
         self.__count=0
         self.__f=f
@@ -43,32 +49,29 @@ class traced(object):
         # Increase count at every call to the function
         traced.count+=1
 
-        # If args is not null
-        #if args2 != "":
         # Print the "recurse down" stack trace
         print traced.count*"| "+",- "+self.__name__+"("+args2+dargs2+")"
-        # Make the function call and catch return value
-        retVal = self.__f(*args,**dargs)
-        # Print the "recurse up" stack trace
-        print traced.count*"| "+"`- "+str(retVal)
-
-        # # If dargs is not null
-        # elif dargs2 != "":
-        #     # Print the "recurse down" stack trace
-        #     print traced.count*"| "+",- "+self.__name__+"("+args2+dargs2+")"
-        #     # Make the function call and catch return value
-        #     retVal = self.__f(*args,**dargs)
-        #     # Print the "recurse up" stack trace
-        #     print traced.count*"| "+"`- "+str(retVal)
-
-        # Decrease count!
-        traced.count-=1
-        # return the return value of the function
-        return retVal
+        # Call function and catch return value, if exception undo nesting level
+        try:
+            retVal = self.__f(*args,**dargs)
+        except Exception, e:
+            traced.count -= 1
+            raise e
+        else:
+            # Print the "recurse up" stack trace
+            print traced.count*"| "+"`- "+str(retVal)
+            # Decrease count!
+            traced.count-=1
+            # return the return value of the function
+            return retVal
 
 
 
 class memoized(object):
+    """A decorator class to store the results of calls to a function with 
+       specific arguments. Using this decorator, calls to a function with 
+       previously given arguments will not need to computer, as the results
+       has already been memoized. """
 
     def __init__(self,f):
         """A decorator class to instantaneously return previously computed 
@@ -93,34 +96,47 @@ class memoized(object):
         # Check that args is not Null
         if args2 != "":
 
-            #print args
-            #print args2
-
             # Check to see if the function has been called before with these args
             if args2 not in self.__memoTable:
                 # If it hasn't call it and store results and args in memoTable
-                self.__memoTable[args2] = self.__f(*args,**dargs)    
-                return self.__memoTable[args2]
+                try:
+                    self.__memoTable[args2] = self.__f(*args,**dargs)    
+                except Exception, e:
+                    self.__memoTable[args2] = e
+                    raise e
+                else:
+                    return self.__memoTable[args2]
             else:
-                return self.__memoTable[args2]
+                if isinstance(self.__memoTable[args2],Exception):
+                    raise self.__memoTable[args2]
+                else:
+                    return self.__memoTable[args2]
 
         # Check that dargs is not Null
         elif dargs2 != "":
 
+            # Check to see if the function has been called before with these dargs
             if dargs2 not in self.__memoTable:
                 # If it hasn't call it and store results and args in memoTable
-                self.__memoTable[dargs2] = self.__f(*args,**dargs)
-                return self.__memoTable[dargs2]
+                try:
+                    self.__memoTable[dargs2] = self.__f(*args,**dargs)    
+                except Exception, e:
+                    self.__memoTable[dargs2] = e
+                    raise e
+                else:
+                    return self.__memoTable[dargs2]
             else:
-                return self.__memoTable[dargs2]
-
-        else:
-
-            raise ValueError("arguments are invalid in some way")
+                if isinstance(self.__memoTable[dargs2],Exception):
+                    raise self.__memoTable[dargs2]
+                else:
+                    return self.__memoTable[dargs2]
 
 
 # run some examples.  The output from this is in decorators.out
 def run_examples():
+    """
+    Run some examples.  The output from this is in decorators.out
+    """
     for f,a in [(fib_t,(7,)),
                 (fib_mt,(7,)),
                 (fib_tm,(7,)),
@@ -208,6 +224,7 @@ def quicksort_mt(l):
     return left+l[0:1]+right
 
 class ChangeException(Exception):
+    """ A custom exception class to go with the change function. """
     pass
 
 @traced

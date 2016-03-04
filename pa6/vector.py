@@ -1,5 +1,11 @@
 from misc import Failure
 
+"""
+This module implements the Vector class, which inherits a lot of operations from
+the similar list data structure. However, we overload several operations, such as 
+comparisons.
+"""
+
 class Vector(object):
 	""" A class that implements a Vector object and supports operations such as 
 		length, iter, add, and dot product. The class is initialized with either
@@ -12,7 +18,7 @@ class Vector(object):
 			vector with the elements of the sequence given as input. The vector
 			length cannot be negative or anything other than a length or sequence. """
 
-		if type(param) is int or type(param) is long:
+		if isinstance(param, int) or isinstance(param, long):
 		
 			if param < 0:
 				raise ValueError("Vector length cannot be negative")
@@ -114,7 +120,8 @@ class Vector(object):
 				self.data[key] = value
 
 	def __eq__(self,other):
-
+		""" This method implements eq comparison between objects of this class 
+			and others. """
 		if not isinstance(other, self.__class__):
 			return False
 		else:
@@ -126,12 +133,13 @@ class Vector(object):
 			return equal
 
 	def __ne__(self,other):
-
+		""" This method implements ne comparison between objects of this class 
+			and others. """
 		if not isinstance(other, self.__class__):
 			return True
 		else:
 			n_equal = False
-			for x,y in zip(sorted(self,reverse=True),sorted(other,reverse=True)):
+			for x,y in zip(self,other):
 				#print "X is: ",x,"and y is: ",y,""
 				if x != y:
 					n_equal = True
@@ -139,38 +147,36 @@ class Vector(object):
 			return n_equal
 
 	def __gt__(self,other):
-		greater = True
+		""" This method implements gt comparison between objects of this class 
+			and others. """
+		greater = False
 		for x,y in zip(sorted(self,reverse=True),sorted(other,reverse=True)):
-			if x < y:
-				greater = False
+			if x > y:
+				greater = True
 				break
 		return greater
 
 	def __ge__(self,other):
-
+		""" This method implements ge comparison between objects of this class 
+			and others. """
 		if self.__gt__(other):
 			return True
 		else:
 			return self.__eq__(other)
-		# greater = True
-		# equal	= True
-		# for x,y in zip(sorted(self,reverse=True),sorted(other,reverse=True)):
-		# 	if x < y:
-		# 		greater = False
-		# 		break
-		# return greater	
 
 	def __lt__(self,other):
-		lesser = True
-		for x,y in zip(sorted(self,reverse=True),sorted(other,reverse=True)):
-			#print "X is: ",x,"and y is: ",y,""
-			if x > y:
-				lesser = False
-				break
-		return lesser
+		""" This method implements lt comparison between objects of this class 
+			and others. """
+		if self.__gt__(other):
+			return False
+		elif self.__eq__(other):
+			return False
+		else:
+			return True
 
 	def __le__(self,other):
-
+		""" This method implements le comparison between objects of this class 
+			and others. """
 		if self.__lt__(other):
 			return True
 		else:

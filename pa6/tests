@@ -1,0 +1,69 @@
+from vector import *
+v=Vector(7)
+v[2:4]=[4,4]
+v
+v[6:2:-3]=[-1,-2]
+v
+
+from vector import *
+l = range(5)
+l
+#[0, 1, 2, 3, 4]
+l[0:1] = 'hello'
+l
+#['h', 'e', 'l', 'l', 'o', 1, 2, 3, 4]
+
+l = Vector(range(5))
+l
+l[0:1] = 'hello'
+l
+#Vector(['h', 'e', 'l', 'l', 'o', 'e', 'l', 'l', 'o', 1, 2, 3, 4])
+
+from vector import *
+a=Vector([1,3,5])
+b=Vector([5,1,3])
+c=Vector([4,5,4])
+a<b
+a>b
+a>=b
+a>c
+a<c
+a>=c
+a<=c
+a==c
+a==a
+a!=c
+a!=[1,3,5]
+
+from vector import *
+Vector([]) == Vector([])
+Vector([]) > Vector([])
+Vector([]) < Vector([])
+Vector([]) <= Vector([])
+Vector([]) >= Vector([])
+Vector([]) != Vector([])
+
+
+
+@traced
+def foo(a,b):
+	if a==0: return b
+	return foo(b=a-1,a=b-1)
+foo(4,5)
+
+from decorators import *
+from time import sleep
+@memoized
+def foo(a=2,b=3):
+	sleep(a)
+	print "done with a"
+	sleep(b)
+	print "done with b"
+	return a+b
+
+from decorators import *
+from time import sleep
+@memoized
+def foo(a):
+    sleep(a)
+    return a
