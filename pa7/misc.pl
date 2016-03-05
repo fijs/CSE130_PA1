@@ -36,6 +36,13 @@ its([H|T],L,X,Y) :- isin(H,L),!,its(T,L,[H|X],Y).
 its([_|T],L,X,Y) :- its(T,L,X,Y).
 intersection(L1,L2,L3) :- its(L1,L2,[],L3).
 
+% worked_at(X,Y) is true if employee X is in the list of Employees E for taqueria Y
+worked_at(X,Y) :- taqueria(Y,E,_),isin(X,E).
+
+%sumIngredients
+sumIngredients([],0).
+sumIngredients([H|T],C) :- sumList(T,Ct),cost(H,ingCost), C is Ct + ingCost.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Problem 1: Facts
 
@@ -83,22 +90,29 @@ taqueria(la_milpas_quatros, [jiminez, martin, antonio, miguel],
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Problem 1: Rules
 
-available_at(X,Y) :- throw(to_be_done).
+available_at(X,Y) :- taqueria(Y,_,L),isin(X,L).
 
-multi_available(X) :- throw(to_be_done). 
+% Bag=[_,_|_] means "Bag has two or more"
+multi_available(X) :- bagof(Y,available_at(X,Y),Bag),Bag=[_,_|_].
 
-overworked(X) :- throw(to_be_done). 
+% Uses function worked_at, defined in the helper functions
+overworked(X) :- bagof(Y,worked_at(X,Y),Bag),Bag=[_,_|_].
 
-total_cost(X,K) :- throw(to_be_done). 
+% Gets the ingredients for X, then calls sumIngredients to get the sum and compare
+total_cost(X,K) :- ingredients(X,L),sumIngredients(L,K).
 
-has_ingredients(X,L) :- throw(to_be_done).
+% Is true if the item X has all the ingredients listed in L 
+% Intersection of L,I should be equal to L
+has_ingredients(X,L) :- ingredients(X,I),intersection(L,I,R),L=R.
 
-avoids_ingredients(X,L) :- throw(to_be_done). 
+% 
+% Intersection of L,I should be empty 
+avoids_ingredients(X,L) :- ingredients(X,I),intersection(L,I,R),R=[].
 
-p1(L,X) :- throw(to_be_done). 
+p1(L,X) :- bagof(I,has_ingredients(I,X),L).
 
-p2(L,Y) :- throw(to_be_done). 
+p2(L,Y) :- bagof(I,avoids_ingredients(I,Y),L).
 
-find_items(L,X,Y) :- p1(L1,X),p2(L2,Y),intersection(L1,L2,L).  
+find_items(L,X,Y) :- p1(L1,X),p2(L2,Y),intersection(L1,L2,L). 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
