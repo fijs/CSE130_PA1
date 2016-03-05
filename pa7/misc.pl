@@ -39,7 +39,7 @@ intersection(L1,L2,L3) :- its(L1,L2,[],L3).
 % worked_at(X,Y) is true if employee X is in the list of Employees E for taqueria Y
 worked_at(X,Y) :- taqueria(Y,E,_),isin(X,E).
 
-%sumIngredients
+% sumIngredients(L,K) is true if the sum of the ingredients in L is equal to K.
 sumIngredients([],0).
 sumIngredients([H|T],C) :- sumList(T,Ct),cost(H,ingCost), C is Ct + ingCost.
 
@@ -90,29 +90,49 @@ taqueria(la_milpas_quatros, [jiminez, martin, antonio, miguel],
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Problem 1: Rules
 
+% available_at(X,Y) is true if the item X is available at taqueria Y
+% calls the taqueria structure to get the list of items available (L) at Y
+% then, it checks to see if X is in L using isin().
 available_at(X,Y) :- taqueria(Y,_,L),isin(X,L).
 
+% multi_available(X) is true if we can make a list "Bag" of size >= 2
+% and Bag contains taquerias Y.  
 % Bag=[_,_|_] means "Bag has two or more"
 multi_available(X) :- bagof(Y,available_at(X,Y),Bag),Bag=[_,_|_].
 
-% Uses function worked_at, defined in the helper functions
+% overworked(X) is true if we can make a list "Bag" of size >= 2
+% and Bag contains taquerias Y. Uses function worked_at(X,Y) which 
+% is defined in the helper functions and checks that a worker X is an 
+% employee at taqueria Y.
 overworked(X) :- bagof(Y,worked_at(X,Y),Bag),Bag=[_,_|_].
 
-% Gets the ingredients for X, then calls sumIngredients to get the sum and compare
+% total_cost(X,K) is true if the sum of the costs of the ingredients for X is
+% equal to K. Gets the ingredients for X, then calls sumIngredients to get the 
+% sum of costs of ingredients and compares to K.
 total_cost(X,K) :- ingredients(X,L),sumIngredients(L,K).
 
-% Is true if the item X has all the ingredients listed in L 
+% has_ingredients(X,L) is true if the item X has all the ingredients listed in L 
 % Intersection of L,I should be equal to L
 has_ingredients(X,L) :- ingredients(X,I),intersection(L,I,R),L=R.
 
-% 
+% avoids_ingredients(X,L) is true if the item X has none the ingredients listed in L
 % Intersection of L,I should be empty 
 avoids_ingredients(X,L) :- ingredients(X,I),intersection(L,I,R),R=[].
 
+% p1(L,X) is true if the item I has all the ingredients listed in X. 
+% Then, we put item I in list L.
+% p1(L,X) :- bagof(I,has_ingredients(_,X),L).
+% p1(L,X) :- bagof(_,has_ingredients(I,X),L).
 p1(L,X) :- bagof(I,has_ingredients(I,X),L).
 
+% p2(L,Y) is true if the item I has none of the ingredients listed in Y. 
+% Then, we put item I in list L.
 p2(L,Y) :- bagof(I,avoids_ingredients(I,Y),L).
 
+% find_items(L,X,Y) is true if the list L contains all of the items that have 
+% all of the ingredients in list X and none of the ingredients in list Y.
+% This rule makes use of helper predicates p1 and p2, then gets the intersection
+% of the lists that p1 and p2 return.
 find_items(L,X,Y) :- p1(L1,X),p2(L2,Y),intersection(L1,L2,L). 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
