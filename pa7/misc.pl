@@ -43,6 +43,14 @@ worked_at(X,Y) :- taqueria(Y,E,_),isin(X,E).
 sumIngredients([],0).
 sumIngredients([H|T],C) :- sumList(T,Ct),cost(H,ingCost), C is Ct + ingCost.
 
+% checkIngredients(I,L) is true if every element in L is in I.
+checkIngredients([],_).
+checkIngredients([H|T],L) :- isin(H,L),checkIngredients(T,L).
+
+% checkIngredients2(I,L) is true if none of the items in L are found in I.
+checkIngredients2([],_).
+checkIngredients2([H|T],L) :- not(isin(H,L)),checkIngredients2(T,L).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Problem 1: Facts
 
@@ -113,11 +121,11 @@ total_cost(X,K) :- ingredients(X,L),sumIngredients(L,K).
 
 % has_ingredients(X,L) is true if the item X has all the ingredients listed in L 
 % Intersection of L,I should be equal to L
-has_ingredients(X,L) :- ingredients(X,I),intersection(L,I,R),L=R.
+has_ingredients(X,L) :- ingredients(X,I),checkIngredients(L,I).
 
 % avoids_ingredients(X,L) is true if the item X has none the ingredients listed in L
 % Intersection of L,I should be empty 
-avoids_ingredients(X,L) :- ingredients(X,I),intersection(L,I,R),R=[].
+avoids_ingredients(X,L) :- ingredients(X,I),checkIngredients2(I,L).
 
 % p1(L,X) is true if the item I has all the ingredients listed in X. 
 % Then, we put item I in list L.
