@@ -1,3 +1,5 @@
+% Fernando I Jaime, A11643783
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Helpers
 
@@ -41,15 +43,15 @@ worked_at(X,Y) :- taqueria(Y,E,_),isin(X,E).
 
 % sumIngredients(L,K) is true if the sum of the ingredients in L is equal to K.
 sumIngredients([],0).
-sumIngredients([H|T],C) :- sumList(T,Ct),cost(H,ingCost), C is Ct + ingCost.
+sumIngredients([H|T],C) :- sumIngredients(T,Ct),cost(H,D),C is Ct+D.
 
-% checkIngredients(I,L) is true if every element in L is in I.
+% checkIngredients(L,I) is true if every element in L is in I.
 checkIngredients([],_).
-checkIngredients([H|T],L) :- isin(H,L),checkIngredients(T,L).
+checkIngredients([H|T],I) :- isin(H,I),checkIngredients(T,I).
 
 % checkIngredients2(I,L) is true if none of the items in L are found in I.
 checkIngredients2([],_).
-checkIngredients2([H|T],L) :- not(isin(H,L)),checkIngredients2(T,L).
+checkIngredients2([H|T],I) :- not(isin(H,I)),checkIngredients2(T,I).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Problem 1: Facts
@@ -120,12 +122,12 @@ overworked(X) :- bagof(Y,worked_at(X,Y),Bag),Bag=[_,_|_].
 total_cost(X,K) :- ingredients(X,L),sumIngredients(L,K).
 
 % has_ingredients(X,L) is true if the item X has all the ingredients listed in L 
-% Intersection of L,I should be equal to L
+% Uses helper function checkIngredients to compare elements of L against those of I
 has_ingredients(X,L) :- ingredients(X,I),checkIngredients(L,I).
 
 % avoids_ingredients(X,L) is true if the item X has none the ingredients listed in L
-% Intersection of L,I should be empty 
-avoids_ingredients(X,L) :- ingredients(X,I),checkIngredients2(I,L).
+% Uses helper function checkIngredients2 to compare elements of L against those of I
+avoids_ingredients(X,L) :- ingredients(X,I),checkIngredients2(L,I).
 
 % p1(L,X) is true if the item I has all the ingredients listed in X. 
 % Then, we put item I in list L.
